@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+           
+    <f:view contentType="text/html">
+        <h:head>
+            <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+            
+        </h:head>
+        
+
+        <h:body >
+            
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="0" resizable="true" closable="true" collapsible="true">
+                    
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    
+                </p:layoutUnit>
+
+                
+                <p:layoutUnit position="west" size="210" header="Servicos" collapsible="true">
+                    <h:form>
+                    <p:menu>
+                        <p:submenu label="Opções">
+                            
+                            <p:menuitem ajax="false" action="#{utils.voltar}" value="Voltar"/>                            
+                            
+                        </p:submenu>
+
+                    </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                                                   
+                    <h:form>
+                                          
+                        <p:outputLabel style="font-size:25px; font-weight: bold" value="Filtrar imóveis" />  <br></br><br></br>  
+                        <p:outputLabel  style="font-weight: bold" value="Número de quartos: " /> <br></br>
+                        <p:inputText id="quartos" value="#{cadastroImovel.quartos}" maxlength="3"                                         
+                                         converterMessage=" O campo número de quartos é numérico!"
+                                         />
+                        <a style="color:red; font-size: 20px"><h:message for="quartos" /></a>
+                        <br></br><br></br>                                           
+                        
+                        <p:outputLabel  style="font-weight: bold" value="Número de banheiros: " /> <br></br>
+                        <p:inputText id="banheiros" value="#{cadastroImovel.banheiros}" maxlength="3"                                         
+                                         converterMessage=" O campo número de banheiros é numérico!"
+                                         />
+                        <a style="color:red; font-size: 20px"><h:message for="banheiros" /></a>
+                        <br></br><br></br>  
+                        	    
+                        <p:outputLabel  style="font-weight: bold" value="Número de salas: " /> <br></br>
+                        <p:inputText id="salas" value="#{cadastroImovel.salas}" maxlength="3"                                         
+                                         converterMessage=" O campo número de salas é numérico!"
+                                         />
+                        <a style="color:red; font-size: 20px"><h:message for="salas" /></a>
+                        <br></br><br></br>  	    
+                           
+                        <p:outputLabel for="piscina" style="font-weight: bold" value="Piscina:" /> <br></br>
+                            <p:selectOneMenu id="piscina" value="#{cadastroImovel.piscina}" style="width:125px">
+                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
+                                <f:selectItem itemLabel="Não" itemValue="#{false}" />                                
+                            </p:selectOneMenu>
+                        <br></br><br></br>                         
+                                                
+                        <p:outputLabel for="garagem" style="font-weight: bold" value="Garagem:" /> <br></br>
+                            <p:selectOneMenu id="piscina" value="#{cadastroImovel.garagem}" style="width:125px">
+                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
+                                <f:selectItem itemLabel="Não" itemValue="#{false}" />                                
+                            </p:selectOneMenu>
+                        <br></br><br></br>   
+                        
+                        <p:outputLabel for="salaReuniao" style="font-weight: bold" value="Sala de reunião:" /> <br></br>
+                            <p:selectOneMenu id="piscina" value="#{cadastroImovel.salaReuniao}" style="width:125px">
+                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
+                                <f:selectItem itemLabel="Não" itemValue="#{false}" />                                
+                            </p:selectOneMenu>
+                        <br></br><br></br>   
+                        
+                        <p:outputLabel for="beiraMar" style="font-weight: bold" value="Beira mar:" /> <br></br>
+                            <p:selectOneMenu id="piscina" value="#{cadastroImovel.beiraMar}" style="width:125px">
+                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
+                                <f:selectItem itemLabel="Não" itemValue="#{false}" />                                
+                            </p:selectOneMenu>
+                        <br></br><br></br>   
+                        
+                        
+                        
+                                                      
+                        <p:outputLabel for="valor" style="font-weight: bold" value="Faixas de preço:" /> <br></br>
+                            <p:selectOneMenu id="valor" value="#{cadastroImovel.valor}" style="width:125px">
+                                <f:selectItem itemLabel="R$ 500 - R$ 1000" itemValue="1" />
+                                <f:selectItem itemLabel="R$ 1000 - R$ 1500" itemValue="2" />
+                                <f:selectItem itemLabel="R$ 1500 - R$ 2500" itemValue="3" />
+                                <f:selectItem itemLabel="R$ 2500 - R$ 4000" itemValue="4" />
+                                <f:selectItem itemLabel="R$ 4000 - R$ 5000" itemValue="5" />
+                                <f:selectItem itemLabel="Acima de R$ 5000" itemValue="6" />
+                            </p:selectOneMenu>
+                        <br></br><br></br>
+                            
+                            
+                            
+                    </h:form>                      
+                        
+                </p:layoutUnit>
+
+            </p:layout>
+            
+        </h:body>
+
+    </f:view>
+</html>
+
