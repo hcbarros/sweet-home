@@ -32,36 +32,11 @@
     </navigation-rule>    
     
     <navigation-rule>
-        <from-view-id>/usuario/*.xhmtl</from-view-id>
+        <from-view-id>/admin/todosImoveis.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>meusImoveis</from-outcome>
-            <to-view-id>/usuario/meusImoveis.xhtml</to-view-id>
-        </navigation-case>        
-        <navigation-case>
-            <from-outcome>todosImoveis</from-outcome>
-            <to-view-id>/usuario/todosImoveis.xhtml</to-view-id>
-        </navigation-case>       
-        <navigation-case>
-            <from-outcome>voltar</from-outcome>
-            <to-view-id>/usuario/index.xhtml</to-view-id>
-        </navigation-case> 
-    </navigation-rule>
-        
-    <navigation-rule>
-        <from-view-id>/admin/*.xhmtl</from-view-id>
-        <navigation-case>
-            <from-outcome>meusImoveis</from-outcome>
-            <to-view-id>/admin/meusImoveis.xhtml</to-view-id>
-        </navigation-case>     
-         <navigation-case>
-            <from-outcome>todosImoveis</from-outcome>
+            <from-outcome>notNumber</from-outcome>
             <to-view-id>/admin/todosImoveis.xhtml</to-view-id>
         </navigation-case>        
-         <navigation-case>
-            <from-outcome>voltar</from-outcome>
-            <to-view-id>/admin/index.xhtml</to-view-id>
-        </navigation-case> 
-    </navigation-rule>    
-    
+    </navigation-rule>              
         
 </faces-config>

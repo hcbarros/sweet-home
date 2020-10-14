@@ -18,6 +18,7 @@ import javax.validation.executable.ExecutableType;
 import javax.validation.executable.ValidateOnExecution;
 import org.hibernate.validator.constraints.NotBlank;
 
+import sweet_home.Imovel;
 import sweet_home.Telefone;
 import sweet_home.Usuario;
 
@@ -69,7 +70,13 @@ public class TelefoneServico extends Servico<Telefone> {
                 query.setParameter(1, email);
                 return query.getResultList();        
     }	
-        
+     
+    @TransactionAttribute(SUPPORTS) 
+    public List<Telefone> recuperarPorUsuario(@NotNull Usuario u) {
+        return super.consultarEntidades(new Object[] {u}, "Telefone.RecuperarPorUsuario");         
+    }
+    
+    
 }
 
 

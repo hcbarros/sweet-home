@@ -23,6 +23,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,7 +45,7 @@ import org.apache.commons.io.IOUtils;
 
 
 @ManagedBean
-@RequestScoped
+@javax.faces.bean.SessionScoped
 public class CadastroImovel implements Serializable {
       
 	private static final long serialVersionUID = 1L;
@@ -54,17 +55,18 @@ public class CadastroImovel implements Serializable {
 	@EJB
     private UsuarioServico usuarioServico; 
 	
-    private int banheiros = 0;    
-    private int quartos = 0;
-    private int salas = 0;
+    private String banheiros;    
+    private String quartos;
+    private String salas;
     private static Usuario usuario = null;
-    private int tipo = 2;
+    private String tipo = "1";
     private String descricao = null;
-    private double valor = 0.0;
+    private String valor;
     private boolean piscina;
     private boolean garagem;
     private boolean salaReuniao;
     private boolean beiraMar;
+    private int filtrar = 0;
     private UIComponent mybutton;
     protected static String resp = "";
         
@@ -75,7 +77,10 @@ public class CadastroImovel implements Serializable {
     private String CEP = null;
     private String estado = null;
     private static List<Imovel> lista = null;
-    private static Endereco selected = null; 
+    private static Imovel imovel = null;
+    
+    
+    
         
     private Part imageFile; 
     
@@ -84,26 +89,28 @@ public class CadastroImovel implements Serializable {
                 
         lista = imovelServico.recuperarImoveis();
                         
-        Imovel imovel = new Imovel();
+        boolean existe = imovelServico.existe(imovel);
         
-        Endereco endereco = new Endereco();
-        endereco.setNumero(numero);        
-        endereco.setRua(rua);
-        endereco.setBairro(bairro);
-        endereco.setCidade(cidade);      
-        endereco.setEstado(estado);
-        endereco.setCEP(CEP);
+		Endereco endereco = new Endereco(null, rua, numero, bairro, cidade, estado, CEP, null);
+
+        
+        if(!existe) {
+        	imovel = new Imovel();
+        	
+            imovel.setEndereco(endereco);
+        }               
+       
                 
         HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Usuario usuarioLogado = (Usuario) sessao.getAttribute("logado");
                 
-        imovel.setQuartos(quartos);
-        imovel.setBanheiros(banheiros);
-        imovel.setSalas(salas);
-        imovel.setTipo(tipo);
+        imovel.setQuartos(Integer.parseInt(quartos));
+        imovel.setBanheiros(Integer.parseInt(banheiros));
+        imovel.setSalas(Integer.parseInt(salas));
+        imovel.setTipo(Integer.parseInt(tipo));
         imovel.setDescricao(descricao);
-        imovel.setValor(valor);
-        imovel.setEndereco(endereco);
+        //imovel.setValor(par);
+        
         imovel.setUsuario(usuarioLogado);
         
         imovelServico.persistir(imovel);    
@@ -112,10 +119,13 @@ public class CadastroImovel implements Serializable {
         return "cadastro";
     }
       
+    
+    
      
-    public void excluir(Imovel imovel) {
-               
-       imovelServico.remover(imovel);      
+    public void excluir(String s) {              
+    	
+       Imovel i = imovelServico.consultarPorId(new Long(s));    	
+       imovelServico.remover(i);      
     }
 
     
@@ -140,35 +150,30 @@ public class CadastroImovel implements Serializable {
     	this.imageFile = imageFile;
     }
        
-    public Endereco getSelected(){
-        return selected;
-    }
+
+
     
-    public void setSelected(Endereco selected) {
-        this.selected = selected;
-    }
-    
-    public int getBanheiros(){
+    public String getBanheiros(){
         return banheiros;
     }
     
-    public void setBanheiros(int banheiros) {
+    public void setBanheiros(String banheiros) {
         this.banheiros = banheiros;
     }
     
-    public int getQuartos(){
+    public String getQuartos(){
         return quartos;
     }
     
-    public void setQuartos(int quartos) {
+    public void setQuartos(String quartos) {
         this.quartos = quartos;
     }
 
-    public int getSalas(){
+    public String getSalas(){
         return salas;
     }
     
-    public void setSalas(int salas) {
+    public void setSalas(String salas) {
         this.salas = salas;
     }
     
@@ -221,7 +226,9 @@ public class CadastroImovel implements Serializable {
     }
     
     public List<Imovel> getLista() {
-        lista = imovelServico.recuperarImoveis();
+    	
+        lista = imovelServico.recuperarImoveis();                
+                
         return lista;
     }
     
@@ -234,6 +241,33 @@ public class CadastroImovel implements Serializable {
     			.collect(Collectors.toList());
     }
         
+    
+    
+    public void setImovel(Imovel imovel) {
+    	
+    	this.tipo = Integer.toString(imovel.getTipo());
+    	this.descricao = imovel.getDescricao();
+    	this.banheiros = Integer.toString(imovel.getBanheiros());
+    	this.quartos = Integer.toString(imovel.getQuartos());
+    	this.salas = Integer.toString(imovel.getSalas());
+    	this.piscina = imovel.getPiscina();
+    	this.beiraMar = imovel.getBeiraMar();
+    	this.garagem = imovel.getGaragem();
+    	this.salaReuniao = imovel.getSalaReuniao();
+    	this.bairro = imovel.getEndereco().getBairro();
+    	this.cidade = imovel.getEndereco().getCidade();
+    	this.estado = imovel.getEndereco().getEstado();
+    	this.numero = imovel.getEndereco().getNumero();
+    	this.CEP = imovel.getEndereco().getCEP();
+    	this.rua = imovel.getEndereco().getRua();
+    }
+    
+    public Imovel getImovel() {
+    	return imovel;
+    }
+        
+    
+    
     public void setLista() {
         lista = imovelServico.recuperarImoveis();
     }
@@ -247,11 +281,11 @@ public class CadastroImovel implements Serializable {
         this.usuario = usuario;
     }
           
-    public int getTipo() {        
+    public String getTipo() {        
         return tipo;
     }
         
-    public void setTipo(int tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
     
@@ -263,11 +297,11 @@ public class CadastroImovel implements Serializable {
         this.descricao = descricao;
     }
     
-    public double getValor() {
+    public String getValor() {
         return valor;
     }
     
-    public void setValor(double valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }    
     
@@ -309,6 +343,14 @@ public class CadastroImovel implements Serializable {
     
     public void setMybutton(UIComponent mybutton) {
         this.mybutton = mybutton;
+    }
+    
+    public int getFiltrar() {
+    	return filtrar;
+    }
+    
+    public void setFiltrar(int filtrar) {
+    	this.filtrar = filtrar;
     }
     
     public String getResp() {

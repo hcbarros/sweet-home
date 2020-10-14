@@ -61,34 +61,15 @@ private static final long serialVersionUID = 1L;
         
    
     
-    public List<Telefone> telefones(String email) {
+    public List<Telefone> telefones(Usuario usuario) {
     	
-    	return getListaTelefones().stream().filter(x -> x.getUsuario().getEmail().equals(email))
-    			.collect(Collectors.toList());
+    	return telefoneServico.recuperarPorUsuario(usuario);
     }
     
-    
-    public String direcionarMeusImoveis() {
-   	
-    	return "meusImoveis";
-    }
-    
-    public String direcionarTodosImoveis() {
-    	
-    	return "todosImoveis";
-    }   
-    
-    public String voltar() {
-    	
-    	return "voltar";
-    }
-    
-    
+            
     public List<Imovel> meusimoveis() {
              	    	   	
-    	return getListaImoveis().stream()
-    			.filter(x -> x.getUsuario().getEmail().equals(usuario.getEmail()))
-    			.collect(Collectors.toList());    	    	
+    	return imovelServico.recuperarPorUsuario(usuario);   	    	
     }
      
     

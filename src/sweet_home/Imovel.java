@@ -43,23 +43,86 @@ import org.primefaces.model.DefaultStreamedContent;
                     query = "SELECT b FROM Imovel b WHERE b.banheiros = ?1"
             ),
             @NamedQuery(
+                    name = "Imovel.RecuperarPorQuartos",
+                    query = "SELECT q FROM Imovel q WHERE q.quartos = ?1"
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorSalas",
+                    query = "SELECT s FROM Imovel s WHERE s.salas = ?1"
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorTipo",
+                    query = "SELECT t FROM Imovel t WHERE t.tipo = ?1"
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorSalas",
+                    query = "SELECT s FROM Imovel s WHERE s.salas = ?1"
+            ),
+            @NamedQuery(
                     name = "Imovel.RecuperarImoveis",
                     query = "SELECT i FROM Imovel i"
-            )   
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorCidade",
+                    query = "SELECT i FROM Imovel i WHERE i.endereco IN (SELECT e FROM Endereco e WHERE e.cidade = ?1)"
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorEstado",
+                    query = "SELECT i FROM Imovel i WHERE i.endereco IN (SELECT e FROM Endereco e WHERE e.estado = ?1)"
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorUsuario",
+                    query = "SELECT i FROM Imovel i WHERE i.usuario = ?1"
+            ) 
           
         }
 )
-//@NamedNativeQueries(
-//        
-//		{
-//            @NamedNativeQuery(
-//                    name = "Imovel.RecuperarImoveis",
-//                    query = "SELECT * FROM TB_IMOVEL",
-//                    resultClass = Endereco.class
-//            )
-//        
-//        }
-//)
+@NamedNativeQueries(
+        
+		{
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa1",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR < 500",
+                    resultClass = Endereco.class
+            ),
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa2",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 500 AND 1000",
+                    resultClass = Endereco.class
+            ),            
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa3",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 1000 AND 1500",
+                    resultClass = Endereco.class
+            ),
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa4",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 1500 AND 2500",
+                    resultClass = Endereco.class
+            ),
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa5",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 2500 AND 4000",
+                    resultClass = Endereco.class
+            ),
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa6",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 4000 AND 5000",
+                    resultClass = Endereco.class
+            ),
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa7",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 5000 AND 7000",
+                    resultClass = Endereco.class
+            ),
+            @NamedNativeQuery(
+                    name = "Imovel.RecuperarPorValorFaixa8",
+                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR > 7000",
+                    resultClass = Endereco.class
+            )            
+        
+        }
+)
 @Access(AccessType.FIELD)
 @ManagedBean
 @RequestScoped

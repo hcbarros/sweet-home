@@ -31,7 +31,7 @@
                     <p:menu>
                         <p:submenu label="Opções">
                             
-                            <p:menuitem ajax="false" action="#{utils.voltar}" value="Voltar"/>                            
+                            <p:menuitem ajax="false" action="/admin/index.xhtml" value="Voltar"/>                            
                             
                         </p:submenu>
 
@@ -40,18 +40,12 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                      
-                    
-                    <h:form enctype="multipart/form-data">
-					    <h:inputFile value="#{cadastroImovel.imageFile}" />
-					    <h:commandButton value="Submit" action="#{cadastroImovel.salvarImagem}" />
-					    <h:messages />
-					</h:form>
-                                                                     
+                             
+                                                     
                                       
                     <h:form>
                        
-                            <p:dataTable id="imoveis" var="listaImovel" value="#{utils.meusimoveis()}" rowKey="#{listaImovel.id}" >
+                            <p:dataTable id="imoveis" var="listaImovel" value="#{filtro.meusimoveis()}" rowKey="#{listaImovel.id}" >
                                 <f:facet name="header">
                                     Imóveis 
                                 </f:facet>  

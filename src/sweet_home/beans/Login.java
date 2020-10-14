@@ -24,7 +24,6 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 
-
 @ManagedBean(name = "login")
 @RequestScoped
 public class Login implements Serializable {

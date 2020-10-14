@@ -18,6 +18,7 @@ import org.junit.runners.MethodSorters;
 
 import sweet_home.Telefone;
 import sweet_home.Usuario;
+import sweet_home.beans.DataLoader;
 import sweet_home.servico.UsuarioServico;
 
 import java.sql.SQLException;
@@ -26,28 +27,36 @@ import java.util.Date;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SuppressWarnings("JPQLValidation")
-public class UsuarioTest extends BaseEJBTest {
+public class UsuarioTest {
 
-//	@EJB
-//    private UsuarioServico usuarioServico;
-//
-//    
-//    @Before
-//    public void setUp() throws NamingException {
-//        usuarioServico= (UsuarioServico) container.getContext().lookup("java:global/pdsc/ejb/UsuarioServico!sweet_home.servico.UsuarioServico");
-//    }
-//        
-//    
-//    @After
-//    public void tearDown() {   	
-//    	
-//        usuarioServico = null;
-//    }
-//
-//    @Test    
-//    public void t01_persistir() {
-//            	
-//    	
-//    }	
+	@EJB
+    private UsuarioServico usuarioServico;
+
+    
+    @Before
+    public void setUp() {
+        
+    	new DataLoader().carregarDados();
+    }
+        
+    
+    @After
+    public void tearDown() {   	
+    	
+        usuarioServico = null;
+    }
+
+    @Test    
+    public void t01_persistir() {
+            	
+    	
+    	Usuario u = new Usuario(null, "joze@gmail.com", "aopHMXX9", "Joana", "Mendonça", true);
+    	
+    	usuarioServico.persistir(u);
+    	
+    	Usuario x = usuarioServico.consultarPorEmail("joze@gmail.com");
+    	
+    	assertNotNull(x);
+    }	
     
 }
