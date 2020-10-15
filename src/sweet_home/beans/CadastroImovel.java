@@ -78,6 +78,7 @@ public class CadastroImovel implements Serializable {
     private String estado = null;
     private static List<Imovel> lista = null;
     private String operacao;
+    private boolean editar;
     private Imovel imovel;   
     
     
@@ -91,10 +92,11 @@ public class CadastroImovel implements Serializable {
     	FacesContext context = FacesContext.getCurrentInstance();
         if(rua == null || rua.length() == 0 || numero == null || numero.length() == 0 || 
         	bairro == null || bairro.length() == 0 || cidade == null || cidade.length() == 0 ||
-        	estado == null || estado.length() == 0  || CEP == null || CEP.length() == 0) {
+        	estado == null || estado.length() == 0  || CEP == null || CEP.length() < 9) {
         	
+        	String msg = CEP.length() < 9 ? "Preencha o CEP completo!" : "Preencha todos os dados do endereço!";
 	        context.addMessage(mybutton.getClientId(context), 
-	                                  new FacesMessage("","Preencha todos os dados do endereço!"));
+	                                  new FacesMessage("", msg));
 	                                  return "editar";
         }
     	
@@ -275,6 +277,7 @@ public class CadastroImovel implements Serializable {
     public void dadosImovel(Imovel imovel) {
     	
     	this.operacao = "Editar imóvel";
+    	this.editar = true;
     	this.imovel = imovel;
     	this.tipo = Integer.toString(imovel.getTipo());
     	this.descricao = imovel.getDescricao();
@@ -296,9 +299,17 @@ public class CadastroImovel implements Serializable {
     
     public void cadastro() {
     	this.operacao = "Cadastrar imóvel";
+    	this.editar = false;
     }
     
     
+    public boolean getEditar() {
+    	return editar;
+    }
+    
+    public void setEditar(boolean editar) {
+    	this.editar = editar;
+    }
     
     public String getOperacao() {
     	return operacao;

@@ -132,8 +132,16 @@
 		                    
 		                     <br/><br/>
 		                     <p:commandButton ajax="false" value="Enviar" action="#{cadastroImovel.cadastrar()}" />
-						     		                
-				 			 <p:commandButton style="margin-left: 10px;" value="Restaurar" update="form" process="@this" />	 
+						     
+						     <ui:fragment rendered="#{cadastroImovel.editar == true}">
+									<p:commandButton style="margin-left: 10px;" value="Restaurar" update="form" process="@this" /> 
+							 </ui:fragment>		                
+				 			 
+				 			 <ui:fragment rendered="#{cadastroImovel.editar == false}">
+									<p:commandButton style="margin-left: 10px;" value="Limpar" update="panel" process="@this" >
+						                <p:resetInput target="panel" />
+						            </p:commandButton> 
+							 </ui:fragment>		 
 				 			 
 				 	<br/>    <p:outputLabel binding="#{cadastroImovel.mybutton}" id="btn" />
                         		<a style="color:red; font-size: 20px"><h:message for="btn" /></a>                   

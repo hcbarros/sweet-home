@@ -39,7 +39,11 @@ function mascaraCEP(id) {
     if ( campo.value.length > 9 ) campo.value = stop;
     else stop = campo.value;     
     
-    if(campo.value.length < 9) erro = false;
+    if(campo.value.length < 9) {
+    	
+    	preencheCampos("");
+    	erro = false;
+    }
     
     CEP(campo.value);
 }
@@ -48,8 +52,6 @@ function mascaraCEP(id) {
 function CEP(cep) {
 		
 	if(cep == null || cep.length < 9) return;	
-	
-	preencheCampos("");
 		
 	cep = cep.replace("-", ""); 
 		
@@ -58,10 +60,10 @@ function CEP(cep) {
         if (this.readyState == 4 && this.status == 200) {
             var obj = JSON.parse(this.responseText);    
                     	
-    
+            	preencheCampos("");
+            
             	if(obj.erro && !erro) {
-            		alert("O CEP informado não existe!");            	
-            		preencheCampos("");
+            		alert("O CEP informado não existe!");            	            		
             		erro = true;
             		return;
             	}
@@ -89,20 +91,25 @@ const preencheCampos = (x) => {
 
 function cidades(estado) {
 			
-	document.getElementById('form:cidades').value = "";                                    
+	document.getElementById('form:cidades').value = "";    
+	document.getElementById('form:loader').style.display = "block";    
 	if(estado == null || estado.length === 0) return;
 	
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
+    	
+    	document.getElementById('form:loader').style.display = "block";
         if (this.readyState == 4 && this.status == 200) {
             var obj = JSON.parse(this.responseText);    
-                 
+    
+            document.getElementById('form:loader').style.display = "block";
             array = [];
             obj.map((x) => {            	
             	array.push(x.nome);
             });
                  
             document.getElementById('form:cidades').value = array.toString();                                    
+            document.getElementById('form:loader').style.display = "none";
         }        
     };
             xhttp.open("GET", `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`);

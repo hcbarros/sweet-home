@@ -32,7 +32,8 @@
 	                        <p:submenu label="Opções">                            	
 	                            	
 	                 			<p:menuitem ajax="false" action="/admin/meusImoveis.xhtml" value="Seus imóveis"/>
-	                            <p:menuitem ajax="false" action="/admin/todosImoveis" value="Todos os imóveis"/>	                            
+	                            <p:menuitem ajax="false" action="/admin/todosImoveis" value="Todos os imóveis"/>
+	                            <p:menuitem ajax="false" actionListener="#{cadastroImovel.cadastro()}" action="/admin/editarImovel" value="Cadastrar imóvel"/>	                            
 	                            	           
 	                        </p:submenu>
 	
