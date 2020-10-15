@@ -73,56 +73,16 @@ import org.primefaces.model.DefaultStreamedContent;
             @NamedQuery(
                     name = "Imovel.RecuperarPorUsuario",
                     query = "SELECT i FROM Imovel i WHERE i.usuario = ?1"
-            ) 
+            ),
+            @NamedQuery(
+                    name = "Imovel.RecuperarPorId",
+                    query = "SELECT i FROM Imovel i WHERE i.id = ?1"
+            )
           
         }
 )
-@NamedNativeQueries(
-        
-		{
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa1",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR < 500",
-                    resultClass = Endereco.class
-            ),
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa2",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 500 AND 1000",
-                    resultClass = Endereco.class
-            ),            
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa3",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 1000 AND 1500",
-                    resultClass = Endereco.class
-            ),
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa4",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 1500 AND 2500",
-                    resultClass = Endereco.class
-            ),
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa5",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 2500 AND 4000",
-                    resultClass = Endereco.class
-            ),
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa6",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 4000 AND 5000",
-                    resultClass = Endereco.class
-            ),
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa7",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR BETWEEN 5000 AND 7000",
-                    resultClass = Endereco.class
-            ),
-            @NamedNativeQuery(
-                    name = "Imovel.RecuperarPorValorFaixa8",
-                    query = "SELECT * FROM TB_IMOVEL WHERE VALOR > 7000",
-                    resultClass = Endereco.class
-            )            
-        
-        }
-)
+
+
 @Access(AccessType.FIELD)
 @ManagedBean
 @RequestScoped
@@ -147,7 +107,7 @@ public class Imovel extends Entidade {
     @Column(name = "SALAS")
     private int salas;
     
-    @NotNull
+    
     @Column(name = "DESCRICAO")
     private String descricao;
     

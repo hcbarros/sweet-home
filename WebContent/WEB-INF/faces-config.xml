@@ -32,9 +32,13 @@
     </navigation-rule>    
     
     <navigation-rule>
-        <from-view-id>/admin/todosImoveis.xhtml</from-view-id>
+        <from-view-id>/admin/editarImovel.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>notNumber</from-outcome>
+            <from-outcome>editar</from-outcome>
+            <to-view-id>/admin/editarImovel.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>sucesso</from-outcome>
             <to-view-id>/admin/todosImoveis.xhtml</to-view-id>
         </navigation-case>        
     </navigation-rule>              

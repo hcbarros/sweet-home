@@ -9,8 +9,9 @@
     <f:view contentType="text/html">
         <h:head>
             <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+            <h:outputStylesheet library="css" name="main.css" /> 
             <h:outputScript library="js" name="index.js"  />
-            
+                        
         </h:head>
         
 
@@ -45,108 +46,97 @@
 
                 <p:layoutUnit position="center">
                       
-               		<h:form id="form" >
-		                                          
-		                        <p:outputLabel style="font-size:25px; font-weight: bold" value="Editar imóvel" />  <br></br><br></br>  
+               		<h:form id="form" styleClass="font" >
 		                        
-		                        <p:outputLabel for="tipo" style="font-weight: bold" value="Tipo:" /> <br></br>
+		                 <p:outputLabel style="font-size:30px; font-weight: bold" value="#{cadastroImovel.operacao}" />  <br/><br/><br/>        
+		                                          
+		                 <h:panelGrid id="panel" columns="2" cellpadding="5">
+		                                          
+		                        <p:outputLabel for="tipo" style="font-weight: bold" value="Tipo:" /> 
 		                            <p:selectOneMenu id="tipo" value="#{cadastroImovel.tipo}" style="width:125px">
 		                                <f:selectItem itemLabel="Casa" itemValue="1" />
 		                                <f:selectItem itemLabel="Apartamento" itemValue="2" />
 		                                <f:selectItem itemLabel="Terreno" itemValue="3" />                                
 		                            </p:selectOneMenu>
-		                            
-		                        <br></br><br></br>
-		                                      					    
+		                                                       					    
 							                        
-		                        <p:outputLabel for="quartos" style="font-weight: bold" value="Número de quartos: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="quartos" onkeydown="mascara(this.id)" onkeyup="mascara(this.id)"  value="#{cadastroImovel.quartos}" maxlength="3"                                         
-		                                         />                      
-		                        
-		                        <br></br><br></br>                                           
-		                        
-		                        <p:outputLabel for="banheiros" style="font-weight: bold" value="Número de banheiros: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="banheiros" onkeydown="mascara(this.id)" onkeyup="mascara(this.id)" value="#{cadastroImovel.banheiros}" maxlength="3"                                         
-		                                         />
+		                        <p:outputLabel for="quartos" style="font-weight: bold" value="Número de quartos: " />
+		                         <p:inputText id="quartos" onkeydown="mascara(this.id)" onkeyup="mascara(this.id)" value="#{cadastroImovel.quartos}" />
+		                        		                        
+		                                           
+		                        <p:outputLabel for="banheiros" style="font-weight: bold" value="Número de banheiros: " /> 
+		                        <p:inputText id="banheiros" onkeydown="mascara(this.id)" onkeyup="mascara(this.id)" value="#{cadastroImovel.banheiros}" />
 		                                         		                                         
-		                        <br></br><br></br>  
-		                        	    
-		                        <p:outputLabel for="salas" style="font-weight: bold" value="Número de salas: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="salas" onkeydown="mascara(this.id)" onkeyup="mascara(this.id)" value="#{cadastroImovel.salas}" maxlength="3"                                         
-		                                         />
+		                                          	    
+		                        <p:outputLabel for="salas" style="font-weight: bold" value="Número de salas: " /> 
+		                        <p:inputText id="salas" onkeydown="mascara(this.id)" onkeyup="mascara(this.id)" value="#{cadastroImovel.salas}" />
 		                                         
-		                        <br></br><br></br>  	    
+		                                          
+		                        <p:outputLabel for="descricao" style="font-weight: bold" value="Descrição: " /> 
+		                        <p:inputTextarea id="descricao" value="#{cadastroImovel.descricao}" />
+		                                             
 		                           
-		                        <p:outputLabel for="piscina" style="font-weight: bold" value="Piscina:" /> <br></br>
+		                        <p:outputLabel for="piscina" style="font-weight: bold" value="Piscina:" /> 
 		                            <p:selectOneMenu id="piscina" value="#{cadastroImovel.piscina}" style="width:125px">
-		                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
-		                                <f:selectItem itemLabel="Não" itemValue="#{false}" />    		                                                            
+		                                <f:selectItem itemLabel="Sim" itemValue="1" />
+		                                <f:selectItem itemLabel="Não" itemValue="0" />    		                                                            
 		                            </p:selectOneMenu>
-		                        <br></br><br></br>                         
-		                                                
-		                        <p:outputLabel for="garagem" style="font-weight: bold" value="Garagem:" /> <br></br>
+		                        		                                                
+		                        <p:outputLabel for="garagem" style="font-weight: bold" value="Garagem:" /> 
 		                            <p:selectOneMenu id="garagem" value="#{cadastroImovel.garagem}" style="width:125px">
-		                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
-		                                <f:selectItem itemLabel="Não" itemValue="#{false}" />	                                                        
+		                                <f:selectItem itemLabel="Sim" itemValue="1" />
+		                                <f:selectItem itemLabel="Não" itemValue="0" />	                                                        
 		                            </p:selectOneMenu>
-		                        <br></br><br></br>   
-		                        
-		                        <p:outputLabel for="salaReuniao" style="font-weight: bold" value="Sala de reunião:" /> <br></br>
+		                        		                        
+		                        <p:outputLabel for="salaReuniao" style="font-weight: bold" value="Sala de reunião:" /> 
 		                            <p:selectOneMenu id="salaReuniao" value="#{cadastroImovel.salaReuniao}" style="width:125px">
-		                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
-		                                <f:selectItem itemLabel="Não" itemValue="#{false}" />    		                                                            
+		                                <f:selectItem itemLabel="Sim" itemValue="1" />
+		                                <f:selectItem itemLabel="Não" itemValue="0" />    		                                                            
 		                            </p:selectOneMenu>
-		                        <br></br><br></br>                      
-		                        
-		                        <p:outputLabel for="beiraMar" style="font-weight: bold" value="Beira mar:" /> <br></br>
+		                        		                        
+		                        <p:outputLabel for="beiraMar" style="font-weight: bold" value="Beira mar:" /> 
 		                            <p:selectOneMenu id="beiraMar" value="#{cadastroImovel.beiraMar}" style="width:125px">
-		                                <f:selectItem itemLabel="Sim" itemValue="#{true}" />
-		                                <f:selectItem itemLabel="Não" itemValue="#{false}" />		                                                       
+		                                <f:selectItem itemLabel="Sim" itemValue="1" />
+		                                <f:selectItem itemLabel="Não" itemValue="0" />		                                                       
 		                            </p:selectOneMenu>
-		                        <br></br><br></br>   
-		                                                
-		                        <p:outputLabel for="valor" style="font-weight: bold" value="Preco: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="valor" onkeydown="mascaraValor(this.id)" onkeyup="mascaraValor(this.id)" value="#{cadastroImovel.valor}" maxlength="3"                                         
+		                        		                                                
+		                        <p:outputLabel for="valor" style="font-weight: bold" value="Preço: " /> 
+		                        <p:inputText id="valor" onkeydown="mascaraValor(this.id)" onkeyup="mascaraValor(this.id)" value="#{cadastroImovel.valor}"                                          
 		                                         />
-		                                                             
-		                        <br></br><br></br>    
-		                                        								
-								
-								<p:outputLabel for="cep" style="font-weight: bold" value="CEP:" /> <br></br>
-		                        <p:inputText styleClass="mask" id="cep" onkeypress="CEP(this.value)" onkeydown="mascaraCEP(this.id)" onkeyup="mascaraCEP(this.id)" value="#{cadastroImovel.CEP}" />
+		                                          
+								<p:outputLabel for="cep" style="font-weight: bold" value="CEP:" /> 
+		                        <p:inputText id="cep" onkeydown="mascaraCEP(this.id)" onkeyup="mascaraCEP(this.id)" value="#{cadastroImovel.CEP}" />
+		                        		                                         		                                         
+		                                         
+		                        <p:outputLabel for="estado" style="font-weight: bold" value="Estado:" />
+		                        <p:inputText id="estado" onfocus="this.value='';" value="#{cadastroImovel.estado}" />
 		                                         		                                         
-		                        <br></br><br></br> 	
+		                                         
+		                        <p:outputLabel for="cidade" style="font-weight: bold" value="Cidade:" />
+		                        <p:inputText id="cidade" onfocus="this.value='';" value="#{cadastroImovel.cidade}" />
+		                                      
 		                        
-		                        <p:outputLabel for="estado" style="font-weight: bold" value="Estado:" /> <br></br>
-		                        <p:inputText styleClass="mask" id="estado" value="#{cadastroImovel.estado}" />
-		                                         		                                         
-		                        <br></br><br></br> 							                                         
-		                        
-		                        <p:outputLabel for="cidade" style="font-weight: bold" value="Cidade:" /> <br></br>
-		                        <p:inputText styleClass="mask" id="cidade" value="#{cadastroImovel.cidade}" />
-		                                         		                                         
-		                        <br></br><br></br> 		
-		                        
-		                        <p:outputLabel for="bairro" style="font-weight: bold" value="Bairro: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="bairro" value="#{cadastroImovel.bairro}" />
-		                                         		                                         
-		                        <br></br><br></br> 
+		                        <p:outputLabel for="bairro" style="font-weight: bold" value="Bairro: " />
+		                        <p:inputText id="bairro" onfocus="this.value='';" value="#{cadastroImovel.bairro}" />
+		                                         
 
-								<p:outputLabel for="rua" style="font-weight: bold" value="Rua: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="rua" value="#{cadastroImovel.rua}" />
-		                                         		                                         
-		                        <br></br><br></br> 
+								<p:outputLabel for="rua" style="font-weight: bold" value="Rua: " />
+		                        <p:inputText id="rua" onfocus="this.value='';" value="#{cadastroImovel.rua}" />
+		                                         
 																
-								<p:outputLabel for="numero" style="font-weight: bold" value="Bairro: " /> <br></br>
-		                        <p:inputText styleClass="mask" id="numero" onkeydown="mascaraValor(this.id)" onkeyup="mascaraValor(this.id)" value="#{cadastroImovel.numero}" />
-		                                         		                                         
-		                        <br></br><br></br> 
-								
-								
-								
-								
-		                       <p:commandButton ajax="false" value="Filtrar" actionListener="#{filtro.setFiltrar(0)}" />
-		                                                                         
+								<p:outputLabel for="numero" style="font-weight: bold" value="Número: " /> 
+		                        <p:inputText id="numero" onfocus="this.value='';" onkeydown="mascaraNumero(this.id)" onkeyup="mascaraNumero(this.id)" value="#{cadastroImovel.numero}" />
+		                                                                                     
+		                            
+		                    </h:panelGrid>        
+		                    
+		                     <br/><br/>
+		                     <p:commandButton ajax="false" value="Enviar" action="#{cadastroImovel.cadastrar()}" />
+						     		                
+				 			 <p:commandButton style="margin-left: 10px;" value="Restaurar" update="form" process="@this" />	 
+				 			 
+				 	<br/>    <p:outputLabel binding="#{cadastroImovel.mybutton}" id="btn" />
+                        		<a style="color:red; font-size: 20px"><h:message for="btn" /></a>                   
 		                            
 		               </h:form>       
                         

@@ -54,7 +54,7 @@ public class CadastroImovel implements Serializable {
     private ImovelServico imovelServico; 
 	@EJB
     private UsuarioServico usuarioServico; 
-	
+		
     private String banheiros;    
     private String quartos;
     private String salas;
@@ -62,10 +62,10 @@ public class CadastroImovel implements Serializable {
     private String tipo = "1";
     private String descricao = null;
     private String valor;
-    private boolean piscina;
-    private boolean garagem;
-    private boolean salaReuniao;
-    private boolean beiraMar;
+    private String piscina;
+    private String garagem;
+    private String salaReuniao;
+    private String beiraMar;
     private int filtrar = 0;
     private UIComponent mybutton;
     protected static String resp = "";
@@ -77,49 +77,71 @@ public class CadastroImovel implements Serializable {
     private String CEP = null;
     private String estado = null;
     private static List<Imovel> lista = null;
-    private static Imovel imovel = null;
+    private String operacao;
+    private Imovel imovel;   
     
     
-    
-        
     private Part imageFile; 
+    
+  
     
     
     public String cadastrar() {
-                
-        lista = imovelServico.recuperarImoveis();
-                        
-        boolean existe = imovelServico.existe(imovel);
-        
-		Endereco endereco = new Endereco(null, rua, numero, bairro, cidade, estado, CEP, null);
-
-        
-        if(!existe) {
-        	imovel = new Imovel();
+               
+    	FacesContext context = FacesContext.getCurrentInstance();
+        if(rua == null || rua.length() == 0 || numero == null || numero.length() == 0 || 
+        	bairro == null || bairro.length() == 0 || cidade == null || cidade.length() == 0 ||
+        	estado == null || estado.length() == 0  || CEP == null || CEP.length() == 0) {
         	
-            imovel.setEndereco(endereco);
-        }               
-       
-                
+	        context.addMessage(mybutton.getClientId(context), 
+	                                  new FacesMessage("","Preencha todos os dados do endereço!"));
+	                                  return "editar";
+        }
+    	
+    	
+		Endereco endereco = new Endereco(null, rua, numero, bairro, cidade, estado, CEP, null);
+                                
         HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Usuario usuarioLogado = (Usuario) sessao.getAttribute("logado");
-                
-        imovel.setQuartos(Integer.parseInt(quartos));
-        imovel.setBanheiros(Integer.parseInt(banheiros));
-        imovel.setSalas(Integer.parseInt(salas));
+        
+        if(imovel == null) {
+        	imovel = new Imovel();
+        	imovel.setUsuario(usuarioLogado);
+        }        
+        
+        imovel.setQuartos(quartos == null || quartos.length() == 0 ? 0 : Integer.parseInt(quartos));
+        imovel.setBanheiros(banheiros == null || banheiros.length() == 0 ? 0 : Integer.parseInt(banheiros));
+        imovel.setSalas(salas == null || salas.length() == 0 ? 0 : Integer.parseInt(salas));
         imovel.setTipo(Integer.parseInt(tipo));
-        imovel.setDescricao(descricao);
-        //imovel.setValor(par);
+        imovel.setDescricao(descricao == null ? "" : descricao);
+        imovel.setValor(valor == null || valor.length() == 0 ? 0 : Double.parseDouble(valor));      
+        imovel.setPiscina(piscina.equals("1"));
+        imovel.setBeiraMar(beiraMar.equals("1"));
+        imovel.setGaragem(garagem.equals("1"));
+        imovel.setSalaReuniao(salaReuniao.equals("1"));
+        imovel.setEndereco(endereco);
         
-        imovel.setUsuario(usuarioLogado);
+        if(imovel.getId() == null) imovelServico.persistir(imovel);    
+        else imovelServico.atualizar(imovel);
         
-        imovelServico.persistir(imovel);    
-        resp = "Imóvel cadastrado com sucesso!";
+        imovel = null;
+        banheiros = null;    
+        quartos = null;
+        salas = null;
+        descricao = null;
+        valor = null;
+        cidade = null;
+        bairro = null;
+        rua = null;
+        numero = null;    
+        CEP = null;
+        estado = null;
+                
+        resp = "Imóvel cadastrado com sucesso!";        
         
-        return "cadastro";
+        return "sucesso";
     }
-      
-    
+          
     
      
     public void excluir(String s) {              
@@ -152,6 +174,13 @@ public class CadastroImovel implements Serializable {
        
 
 
+    public Imovel getImovel() {
+    	return imovel;
+    }
+    
+    public void setImovel(Imovel imovel) {
+    	this.imovel = imovel;
+    }
     
     public String getBanheiros(){
         return banheiros;
@@ -243,17 +272,20 @@ public class CadastroImovel implements Serializable {
         
     
     
-    public void setImovel(Imovel imovel) {
+    public void dadosImovel(Imovel imovel) {
     	
+    	this.operacao = "Editar imóvel";
+    	this.imovel = imovel;
     	this.tipo = Integer.toString(imovel.getTipo());
     	this.descricao = imovel.getDescricao();
     	this.banheiros = Integer.toString(imovel.getBanheiros());
     	this.quartos = Integer.toString(imovel.getQuartos());
     	this.salas = Integer.toString(imovel.getSalas());
-    	this.piscina = imovel.getPiscina();
-    	this.beiraMar = imovel.getBeiraMar();
-    	this.garagem = imovel.getGaragem();
-    	this.salaReuniao = imovel.getSalaReuniao();
+    	this.valor = Double.toString(imovel.getValor());
+    	this.piscina = imovel.getPiscina() ? "1" : "0";
+    	this.beiraMar = imovel.getBeiraMar() ? "1" : "0";
+    	this.garagem = imovel.getGaragem() ? "1" : "0";
+    	this.salaReuniao = imovel.getSalaReuniao() ? "1" : "0";
     	this.bairro = imovel.getEndereco().getBairro();
     	this.cidade = imovel.getEndereco().getCidade();
     	this.estado = imovel.getEndereco().getEstado();
@@ -262,11 +294,19 @@ public class CadastroImovel implements Serializable {
     	this.rua = imovel.getEndereco().getRua();
     }
     
-    public Imovel getImovel() {
-    	return imovel;
+    public void cadastro() {
+    	this.operacao = "Cadastrar imóvel";
     }
-        
     
+    
+    
+    public String getOperacao() {
+    	return operacao;
+    }
+    
+    public void setOperacao(String operacao) {
+    	this.operacao = operacao;
+    }
     
     public void setLista() {
         lista = imovelServico.recuperarImoveis();
@@ -305,35 +345,35 @@ public class CadastroImovel implements Serializable {
         this.valor = valor;
     }    
     
-    public boolean getPiscina() {
+    public String getPiscina() {
     	return piscina;
     }
     
-    public void setPiscina(boolean piscina) {
+    public void setPiscina(String piscina) {
     	this.piscina = piscina;
     }
     
-    public boolean getGaragem() {
+    public String getGaragem() {
     	return garagem;
     }
     
-    public void setGaragem(boolean garagem) {
+    public void setGaragem(String garagem) {
     	this.garagem = garagem;
     }
     
-    public boolean getSalaReuniao() {
+    public String getSalaReuniao() {
     	return salaReuniao;
     }
     
-    public void setSalaReuniao(boolean salaReuniao) {
+    public void setSalaReuniao(String salaReuniao) {
     	this.salaReuniao = salaReuniao;
     }
     
-    public boolean getBeiraMar() {
+    public String getBeiraMar() {
     	return beiraMar;
     }
     
-    public void setBeiraMar(boolean beiraMar) {
+    public void setBeiraMar(String beiraMar) {
     	this.beiraMar = beiraMar;
     }
     

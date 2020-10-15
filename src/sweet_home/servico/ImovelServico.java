@@ -12,6 +12,7 @@ import javax.validation.executable.ExecutableType;
 import javax.validation.executable.ValidateOnExecution;
 import org.hibernate.validator.constraints.NotBlank;
 
+import sweet_home.Administrador;
 import sweet_home.Imovel;
 import sweet_home.Usuario;
 
@@ -79,7 +80,11 @@ public class ImovelServico extends Servico<Imovel> {
     }    
     
     
-    
+    @TransactionAttribute(SUPPORTS) 
+    public Imovel recuperarPorId(@NotNull Long id) {
+        List<Imovel> lista = super.consultarEntidades(new Object[] {id}, "Imovel.RecuperarPorId");
+        return lista.isEmpty() ? null : lista.get(0);
+    }   
     
     @TransactionAttribute(SUPPORTS) 
     public List<Imovel> recuperarPorUsuario(@NotNull Usuario u) {

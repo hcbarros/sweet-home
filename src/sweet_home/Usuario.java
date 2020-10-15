@@ -60,7 +60,7 @@ import javax.validation.constraints.NotNull;
             @NamedQuery(
                     name = "Usuario.RecuperarPorId",
                     query = "SELECT u FROM Usuario u WHERE u.id = ?1"
-            ),
+            )
                    
                  
         }

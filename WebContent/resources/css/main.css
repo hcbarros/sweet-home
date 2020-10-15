@@ -1,4 +1,15 @@
 
+@font-face {
+    font-family: 'times';
+        src: url('fonts/times.ttf') format('truetype');    
+}
+
+
 .hide { 
     display: none;
+}
+
+
+.font {
+	font-family: 'times';
 }

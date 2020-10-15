@@ -1,7 +1,8 @@
 
 var array = [];
-
 var stop = '';
+var erro = false;
+
 function mascara(id) {
     
     var campo = document.getElementById(id);        
@@ -26,7 +27,7 @@ function mascaraNumero(id) {
     
     var campo = document.getElementById(id);        
     campo.value = campo.value.replace( /[^\d]/g, '' );	                                         
-    if ( campo.value.length > 5 ) campo.value = stop;
+    if ( campo.value.length > 7 ) campo.value = stop;
     else stop = campo.value;    
 }
 
@@ -36,36 +37,55 @@ function mascaraCEP(id) {
     campo.value = campo.value.replace( /[^\d]/g, '' )            
                             .replace( /(\d{5})(\d)/,"$1-$2" );
     if ( campo.value.length > 9 ) campo.value = stop;
-    else stop = campo.value;    
+    else stop = campo.value;     
+    
+    if(campo.value.length < 9) erro = false;
+    
+    CEP(campo.value);
 }
-
 
 
 function CEP(cep) {
 		
-	if(cep == null || cep.length < 9) return;
+	if(cep == null || cep.length < 9) return;	
 	
+	preencheCampos("");
+		
 	cep = cep.replace("-", ""); 
-	
+		
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var obj = JSON.parse(this.responseText);    
-                 
-            	if(obj.erro) {
-            		alert("O CEP informado não existe!");
+                    	
+    
+            	if(obj.erro && !erro) {
+            		alert("O CEP informado não existe!");            	
+            		preencheCampos("");
+            		erro = true;
             		return;
             	}
-                 
-            document.getElementById('form:estado').value = obj.uf;
-            document.getElementById('form:cidade').value = obj.localidade;
-            document.getElementById('form:bairro').value = obj.bairro;
-            document.getElementById('form:rua').value = obj.logradouro;
+            	
+            	if(obj.erro) return;
+            	                 
+            	preencheCampos(JSON.stringify(obj));            
         }        
     };
             xhttp.open("GET", `https://viacep.com.br/ws/${cep}/json/`);
             xhttp.send();
 }
+
+
+const preencheCampos = (x) => {
+	
+	let obj = x.length === 0 ? "" : JSON.parse(x);
+	document.getElementById('form:estado').value = x.length === 0 ? "" : obj.uf;
+    document.getElementById('form:cidade').value = x.length === 0 ? "" : obj.localidade;
+    document.getElementById('form:bairro').value = x.length === 0 ? "" : obj.bairro;
+    document.getElementById('form:rua').value = x.length === 0 ? "" : obj.logradouro;
+    document.getElementById('form:numero').value = "";
+}
+
 
 function cidades(estado) {
 			
