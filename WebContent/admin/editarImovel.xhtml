@@ -45,10 +45,25 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                      
-               		<h:form id="form" styleClass="font" >
-		                        
-		                 <p:outputLabel style="font-size:30px; font-weight: bold" value="#{cadastroImovel.operacao}" />  <br/><br/><br/>        
+                
+                	
+                	<p:outputLabel style="font-size:30px; font-weight: bold" value="#{cadastroImovel.operacao}" />  <br/><br/><br/>
+                
+                	<h:panelGrid id="panel" columns="2" cellpadding="5">
+	                	<p:outputLabel for="imagem" style="font-weight: bold" value="Imagens: " />	
+	                	                                             
+			            <h:form id="imagem" enctype="multipart/form-data" >
+			            				            	
+			            	<p:fileUpload fileUploadListener="#{cadastroImovel.salvarImagem}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 			            			  
+			            			invalidFileMessage="São permitidas somente imagens (gif, jpeg, jpg e png)" label="Arquivo" 
+			            			style="margin-left:115px;" mode="advanced" auto="true" />    
+    							            							    
+						</h:form>     
+					</h:panelGrid>	 
+					
+                      	
+               		<h:form id="form" styleClass="font" >                      
+		                         
 		                                          
 		                 <h:panelGrid id="panel" columns="2" cellpadding="5">
 		                                          
@@ -74,7 +89,8 @@
 		                                          
 		                        <p:outputLabel for="descricao" style="font-weight: bold" value="Descrição: " /> 
 		                        <p:inputTextarea id="descricao" value="#{cadastroImovel.descricao}" />
-		                                             
+		                        
+		                                                                   
 		                           
 		                        <p:outputLabel for="piscina" style="font-weight: bold" value="Piscina:" /> 
 		                            <p:selectOneMenu id="piscina" value="#{cadastroImovel.piscina}" style="width:125px">

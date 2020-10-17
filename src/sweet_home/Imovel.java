@@ -1,9 +1,12 @@
 package sweet_home;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -32,7 +35,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.io.IOUtils;
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 @Entity
 @Table(name = "TB_IMOVEL")
@@ -289,21 +294,31 @@ public class Imovel extends Entidade {
     	byte[] imageInByte = null;
     	
     	try {
-	    	BufferedImage imagem = ImageIO.read(new File(name));
-	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    	ImageIO.write( imagem, "jpg", baos );
-	    	baos.flush();
-	    	imageInByte = baos.toByteArray();
-	    	baos.close();
+    		InputStream stream = new FileInputStream(name);    		
+    		imageInByte = IOUtils.toByteArray(stream);
+    		return imageInByte;
     	}
     	catch(IOException e) {}
     	return imageInByte;
     }
 
-    public DefaultStreamedContent byteToStream(byte[] img) {    	
+    public StreamedContent byteToStream(byte[] img) {    	
     	
     	InputStream stream = new ByteArrayInputStream(img);
-    	return new DefaultStreamedContent(stream);
+    	StreamedContent content = new DefaultStreamedContent(stream);
+    	return content;
+    }
+    
+    public int imgAltura(byte[] img) {
+    	
+    	try {
+	        ByteArrayInputStream bais = new ByteArrayInputStream(img);
+	        BufferedImage image = ImageIO.read(bais);	
+	        int h = image.getHeight();
+	        int w = image.getWidth();        
+	        return (550*h)/w;
+    	}catch(IOException e) {e.printStackTrace();}
+    	return 370;
     }
     
     

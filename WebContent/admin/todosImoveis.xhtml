@@ -49,7 +49,7 @@
                                         
                     
                     <ui:fragment rendered="#{filtro.filtrar == 0}">
-                                                
+                                                                              
                                       
 		                    <h:form styleClass="font" >
 		                       
@@ -57,29 +57,18 @@
 		                                <f:facet name="header">
 		                                    Imóveis 
 		                                </f:facet>  
-		                                <p:column style="text-align: center; width: 50px;" headerText="Salas">
-		                                    <h:outputText value="#{listaImovel.salas}" />
+		                                
+		                                <p:column style="text-align: center; min-width: 50px; overflow: hidden;" headerText="Estado">
+		                                    <h:outputText value="#{listaImovel.endereco.estado}" />
 		                                </p:column>   
-		                                <p:column style="text-align: center; width: 50px;" headerText="Quartos">
-		                                    <h:outputText value="#{listaImovel.quartos}" />
+		                                <p:column style="text-align: center; min-width: 70px; overflow: hidden;" headerText="Cidade">
+		                                    <h:outputText value="#{listaImovel.endereco.cidade}" />
 		                                </p:column>  
-		                                <p:column style="text-align: center; width: 70px;" headerText="Banheiros">
-		                                    <h:outputText value="#{listaImovel.banheiros}" />
-		                                </p:column>  
-		                                
-		                                <p:column style="text-align: center; width: 90px;" headerText="Descrição">
-		                                 
-		                                 	<p:commandButton value="Descrição" onclick="PF(#{listaImovel.id}).show();" type="button" />                               		
-		                               		<p:dialog width="600" modal="true" appendTo="@(body)" header="Descrição" 
-		                             				 widgetVar="#{listaImovel.id}" hideEffect="fade" showEffect="fade">                               
-		                               
-				                                   <h:outputText value="#{listaImovel.descricao}" /> <br></br>        				                                                                   
-		                                
-		                                	</p:dialog>                           
-		                                    
+		                                <p:column style="text-align: center; min-width: 70px; overflow: hidden;" headerText="Bairro">
+		                                    <h:outputText value="#{listaImovel.endereco.bairro}" />
 		                                </p:column>  
 		                                
-		                                <p:column style="text-align: center; width: 80px;" headerText="Tipo">
+		                                <p:column style="text-align: center; min-width: 70px; overflow: hidden;" headerText="Tipo">
 		                                	<ui:fragment rendered="#{listaImovel.tipo == 1}">
 											    <h:outputText value="Casa"/> 
 											</ui:fragment>
@@ -91,61 +80,91 @@
 											</ui:fragment>                                    
 		                                </p:column> 
 		                                
-		                                <p:column style="text-align: center; width: 60px;" headerText="Valor">
+		                                <p:column style="text-align: center; width: 120px;" headerText="Valor">
 		                                    <h:outputText value="R$ #{listaImovel.valor}" />
-		                                </p:column> 
-		                           
-		                                <p:column style="text-align: center; width: 200px;" headerText="Responsável">                                	
-		                                	<p:carousel value="#{filtro.meustelefones(listaImovel.usuario)}" headerText="#{listaImovel.usuario.primeiroNome}" 
-		                                	var="fone" itemStyle="height:65px;text-align:center" numVisible="1" easing="easeOutBounce" 
-		                                	style="width:200px" circular="true">
-										    
-										        <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
-										            								 
-										            <h:outputText value="DDD:" />
-										            <h:outputText value="#{fone.ddd}" />
-										 
-										            <h:outputText value="Numero" />
-										            <h:outputText value="#{fone.numero}" />								 
-										           
-										        </h:panelGrid>
-										    </p:carousel>     
-										   	
-										   	<br></br>
-										   	<h:outputText value="#{listaImovel.usuario.email}" />
-										                             
-		                                </p:column> 
+		                                </p:column> 		                                
 		                                
-		                                <p:column style="text-align: center; width: 80px;" headerText="Endereço">
-											
-											<p:commandButton value="Ver endereço" onclick="PF(#{listaImovel.endereco.id}).show();" type="button" />                               		
-		                               		<p:dialog width="500" modal="true" appendTo="@(body)" header="Endereço" 
-		                             				 widgetVar="#{listaImovel.endereco.id}" hideEffect="fade" showEffect="fade">                               
-		                               
-				                      <br></br>    <h:outputText value="Número: #{listaImovel.endereco.numero}" /> <br></br>        
-				                                   <h:outputText value="#{listaImovel.endereco.rua}" />		<br></br>
-				                                   <h:outputText value="Bairro: #{listaImovel.endereco.bairro}" />		<br></br> 
-				                                   <h:outputText value="Cidade: #{listaImovel.endereco.cidade}" />		<br></br>	                                                    
-				                                   <h:outputText value="Estado: #{listaImovel.endereco.estado}" />                                
 		                                
-		                                	</p:dialog>
+		                           		<p:column style="text-align: center; width: 120px;" headerText="Detalhes"> 
+		                           				             
+		                           			<p:commandButton value="Detalhes" onclick="PF(#{listaImovel.id}).show();" type="button" />                               		
+		                               		<p:dialog width="600" modal="true" appendTo="@(body)" header="Detalhes" 
+		                             				 widgetVar="#{listaImovel.id}" hideEffect="clip" showEffect="clip">                               
+		                               		                           				                           		
+				                           			<p:outputLabel style="font-size:20px; font-weight: bold" value="Responsável" />                               	
+				                                	<p:carousel value="#{filtro.meustelefones(listaImovel.usuario)}" headerText="#{listaImovel.usuario.primeiroNome}" 
+				                                	var="fone" itemStyle="height:65px;text-align:center" numVisible="1" easing="easeOutBounce" 
+				                                	style="width:200px" circular="true">
+												    
+												        <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
+												            								 
+												            <h:outputText value="DDD:" />
+												            <h:outputText value="#{fone.ddd}" />
+												 
+												            <h:outputText value="Número:" />
+												            <h:outputText value="#{fone.numero}" />								 
+												           
+												        </h:panelGrid>
+												    </p:carousel>     
+												   	
+												   	<br/>
+												   	Email: <h:outputText value="#{listaImovel.usuario.email}" />
+												    
+												    <br/><br/>
+												    <p:outputLabel style="font-size:20px; font-weight: bold" value="Descrição:" />		<br/>               
+												    <h:outputText value="#{listaImovel.descricao}" /> 
+												    
+												    <br/><br/>
+												    <p:outputLabel style="font-size:20px;" value="Número de salas: #{listaImovel.salas}" />		<br/>
+												    <p:outputLabel style="font-size:20px;" value="Número de quartos: #{listaImovel.quartos}" />		<br/>
+												    <p:outputLabel style="font-size:20px;" value="Número de banheiros: #{listaImovel.banheiros}" />		<br/>
+												    <p:outputLabel style="font-size:20px;" value='Piscina: #{listaImovel.piscina ? "sim" : "não"}' />	<br/>
+												    <p:outputLabel style="font-size:20px;" value='Garagem: #{listaImovel.garagem ? "sim" : "não"}' />	<br/>
+												    <p:outputLabel style="font-size:20px;" value='Sala de reunião: #{listaImovel.salaReuniao ? "sim" : "não"}' />	<br/>
+												    <p:outputLabel style="font-size:20px;" value='Beira mar: #{listaImovel.beiraMar ? "sim" : "não"}' />
+												    													    
+												    <br/><br/>
+												    <p:outputLabel style="font-size:20px; font-weight: bold" value="Endereço:" />
+												    
+											<br/>   <h:outputText value="Número: #{listaImovel.endereco.numero}" /> <br/>        
+				                                   	<h:outputText value="#{listaImovel.endereco.rua}" />		<br/>
+				                                   	<h:outputText value="Bairro: #{listaImovel.endereco.bairro}" />		<br/> 
+				                                   	<h:outputText value="Cidade: #{listaImovel.endereco.cidade}" />		<br/>	                                                    
+				                                   	<h:outputText value="Estado: #{listaImovel.endereco.estado}" />     <br/>                      
+												    <h:outputText value="CEP: #{listaImovel.endereco.CEP}" />
+												    
+										    </p:dialog>
+						
+									                             
+		                                </p:column>      
+		                                                        
 		                                
-		                                </p:column> 
-		                                
-		                                <p:column style="text-align: center; width: 200px" headerText="Imagens">
+		                                <p:column style="text-align: center; width: 120px" headerText="Imagens">
 		                                                                       
-		                                    <p:carousel value="#{listaImovel.imagens}" headerText="Imagens" 
-		                                	var="img" itemStyle="height:65px;text-align:center" numVisible="1" easing="easeOutBounce" 
-		                                	style="width:200px" circular="true">
-										    
-										        <h:panelGrid columns="1" style="width:100%" columnClasses="label,value">
-										            								 
-										            <p:graphicImage value="#{imovel.byteToStream(img)}" height="180px" width="250px"/>						 
-										           
-										        </h:panelGrid>
-										    </p:carousel>                                       
+		                                	<p:commandButton value="Imagens" onclick="PF('imagem'+#{listaImovel.id}).show();" type="button" />                               		
+		                               		<p:dialog width="550" modal="true" appendTo="@(body)"  header="Imagens" 
+		                               					widgetVar="imagem#{listaImovel.id}" hideEffect="clip" showEffect="clip" dynamic="true" > 
+		                                
+			                                    <p:carousel value="#{listaImovel.imagens}" var="img" style="width:100%; min-height:200px; ;" 
+			                                    			itemStyle="width:100%;" numVisible="1" easing="easeOutBounce" circular="true">
+											    			            								 
+											          <p:graphicImage stream="false" value="#{imovel.byteToStream(img)}" height="#{imovel.imgAltura(img)}" width="100%"/>						 
+											    		        
+											    </p:carousel>     
+											    
+											</p:dialog>                                  
 		                                                           
 		                                </p:column> 
+		                                
+		                                
+		                                <p:column style="text-align: center; width: 25px;" >
+		                                	<p:commandLink ajax="false" actionListener="#{cadastroImovel.dadosImovel(listaImovel)}" 
+		                                								 action="/admin/editarImovel.xhtml">
+		                                	
+		                                    	<p:graphicImage style="width:20px; height:20px" library="imagens" name="edit.png"/>		                                    
+		                                    	
+		                                    </p:commandLink>
+		                                </p:column> 	
 		                                
 		                                <p:column style="text-align: center; width: 25px;" >
 		                                	<p:commandLink ajax="false" actionListener="#{cadastroImovel.excluir(listaImovel.id)}" >
@@ -153,24 +172,16 @@
 		                                    	<p:graphicImage style="width:20px; height:20px" library="imagens" name="delete.png"/>		                                    
 		                                    	
 		                                    </p:commandLink>
-		                                </p:column> 
+		                                </p:column>                            	                                
+		                
 		                                
-		                                 <p:column style="text-align: center; width: 25px;" >
-		                                	<p:commandLink ajax="false" actionListener="#{cadastroImovel.dadosImovel(listaImovel)}" 
-		                                								 action="/admin/editarImovel.xhtml">
-		                                	
-		                                    	<p:graphicImage style="width:20px; height:20px" library="imagens" name="edit.png"/>		                                    
-		                                    	
-		                                    </p:commandLink>
-		                                </p:column> 		                                
-		                                
-		                            </p:dataTable>                   
-		                                                                                                            
+		                            </p:dataTable>                                                                                                        
 		                            
-		                        </h:form>                      
-		                        
+		                        </h:form>           	                        
                         
                         </ui:fragment>
+                        
+                        
                         
                         <ui:fragment rendered="#{filtro.filtrar == 1}">                        
                                                 
@@ -295,7 +306,7 @@
 			                            		                            	
 			                            </p:selectOneMenu>
 			                            
-			                            <p:graphicImage id="loader" style="display:none; width:32px; height:32px" library="imagens" name="loader.gif"/>
+			                            <p:graphicImage id="loader" style="display:none; width:30px; height:30px" library="imagens" name="loader.gif"/>
 										        
 									</h:panelGroup>		 
 									                      
@@ -303,7 +314,7 @@
 			                     </h:panelGrid>
 									
 									
-			                     <p:commandButton ajax="false" value="Filtrar" actionListener="#{filtro.setFiltrar(0)}" />
+			        <br/>        <p:commandButton ajax="false" value="Filtrar" actionListener="#{filtro.setFiltrar(0)}" />
 			                        
 			                     <h:inputHidden id="cidades" value="#{filtro.cidadejson}" />   
 			                                                                         

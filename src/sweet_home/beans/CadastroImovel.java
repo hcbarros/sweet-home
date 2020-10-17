@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Any;
@@ -22,6 +23,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.imageio.ImageIO;
@@ -30,7 +32,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import org.primefaces.event.SelectEvent;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import sweet_home.Endereco;
 import sweet_home.Imovel;
@@ -80,11 +83,10 @@ public class CadastroImovel implements Serializable {
     private String operacao;
     private boolean editar;
     private Imovel imovel;   
-    
-    
-    private Part imageFile; 
-    
-  
+    private List<byte[]> imagens = null;
+        
+    private UploadedFile imageFile; 
+        
     
     
     public String cadastrar() {
@@ -121,6 +123,7 @@ public class CadastroImovel implements Serializable {
         imovel.setBeiraMar(beiraMar.equals("1"));
         imovel.setGaragem(garagem.equals("1"));
         imovel.setSalaReuniao(salaReuniao.equals("1"));
+        if(imagens != null) imovel.setImagens(imagens);
         imovel.setEndereco(endereco);
         
         if(imovel.getId() == null) imovelServico.persistir(imovel);    
@@ -138,13 +141,13 @@ public class CadastroImovel implements Serializable {
         numero = null;    
         CEP = null;
         estado = null;
-                
+        imagens = null;
+        
         resp = "Imóvel cadastrado com sucesso!";        
         
         return "sucesso";
     }
-          
-    
+              
      
     public void excluir(String s) {              
     	
@@ -153,28 +156,25 @@ public class CadastroImovel implements Serializable {
     }
 
     
-    public String salvarImagem() {
-    	
+    public void salvarImagem(FileUploadEvent event) {
+    	    		
     	try {
-	    	InputStream is = imageFile.getInputStream();
-	    	byte[] bytes = IOUtils.toByteArray(is);
+	    	InputStream is = event.getFile().getInputstream();
+	    	if(imagens == null) imagens = new ArrayList<>();
 	    	
-	    	return "";
-		    	
-    	}catch(IOException e) {}
-    	
-    	return "";
+	    	imagens.add(IOUtils.toByteArray(is));	    	    		    	
+	    	
+    	}catch(IOException e) {e.printStackTrace();}    	
     }
-    
-    public Part getImageFile() {
-    	return imageFile;
-    }
-    
-    public void setImageFile(Part imageFile) {
-    	this.imageFile = imageFile;
-    }
-       
+          
 
+    public List<byte[]> getImagens() {
+    	return imagens;
+    }
+    
+    public void setImagens(List<byte[]> imagens) {
+    	this.imagens = imagens;
+    }
 
     public Imovel getImovel() {
     	return imovel;
@@ -279,6 +279,7 @@ public class CadastroImovel implements Serializable {
     	this.operacao = "Editar imóvel";
     	this.editar = true;
     	this.imovel = imovel;
+    	this.imagens = imovel.getImagens();
     	this.tipo = Integer.toString(imovel.getTipo());
     	this.descricao = imovel.getDescricao();
     	this.banheiros = Integer.toString(imovel.getBanheiros());
