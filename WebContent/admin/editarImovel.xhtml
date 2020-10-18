@@ -9,7 +9,7 @@
     <f:view contentType="text/html">
         <h:head>
             <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
-            <h:outputStylesheet library="css" name="main.css" /> 
+            <h:outputStylesheet library="css" name="main.css" />            
             <h:outputScript library="js" name="index.js"  />
                         
         </h:head>
@@ -49,23 +49,36 @@
                 	
                 	<p:outputLabel style="font-size:30px; font-weight: bold" value="#{cadastroImovel.operacao}" />  <br/><br/><br/>
                 
-                	<h:panelGrid id="panel" columns="2" cellpadding="5">
-	                	<p:outputLabel for="imagem" style="font-weight: bold" value="Imagens: " />	
+                	<h:panelGrid id="panel" columns="2" cellpadding="5"  >
+	                	<p:outputLabel for="uploadfile" style="font-weight: bold" value="Salvar imagens: " />	
 	                	                                             
-			            <h:form id="imagem" enctype="multipart/form-data" >
+			            <h:form id="uploadfile" enctype="multipart/form-data" >
 			            				            	
 			            	<p:fileUpload fileUploadListener="#{cadastroImovel.salvarImagem}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 			            			  
 			            			invalidFileMessage="São permitidas somente imagens (gif, jpeg, jpg e png)" label="Arquivo" 
-			            			style="margin-left:115px;" mode="advanced" auto="true" />    
-    							            							    
+			            			style="margin-left: 50px;" mode="advanced" auto="true" />
+			            			                							            							    
 						</h:form>     
-					</h:panelGrid>	 
-					
-                      	
-               		<h:form id="form" styleClass="font" >                      
-		                         
+					</h:panelGrid>	
+											                         
 		                                          
-		                 <h:panelGrid id="panel" columns="2" cellpadding="5">
+		            <h:panelGrid id="panel" columns="2" cellpadding="5">
+		                                          
+		                                          
+		                        <p:outputLabel for="tipo" style="font-weight: bold" value="Imagens do imóvel:" />
+		                        <p:commandButton value="Ver imagens" onclick="PF('imagem').show();" type="button" />                               		
+		                        <p:dialog width="550" modal="true" appendTo="@(body)"  header="Imagens" 
+		                        	widgetVar="imagem" hideEffect="clip" showEffect="clip" dynamic="true" > 
+		                                
+			                        <p:carousel value="#{cadastroImovel.imagens}" var="img" style="width:100%; min-height:200px; ;" 
+			                           			itemStyle="width:100%;" numVisible="1" easing="easeOutBounce" circular="true">
+											    			            								 
+									          <p:graphicImage stream="false" value="#{imovel.byteToStream(img)}" height="#{imovel.imgAltura(img)}" width="100%"/>						 
+											    		        
+									</p:carousel>     
+											    
+								</p:dialog>       
+		                                          
 		                                          
 		                        <p:outputLabel for="tipo" style="font-weight: bold" value="Tipo:" /> 
 		                            <p:selectOneMenu id="tipo" value="#{cadastroImovel.tipo}" style="width:125px">

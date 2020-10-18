@@ -32,6 +32,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -96,9 +97,11 @@ public class CadastroImovel implements Serializable {
         	bairro == null || bairro.length() == 0 || cidade == null || cidade.length() == 0 ||
         	estado == null || estado.length() == 0  || CEP == null || CEP.length() < 9) {
         	
-        	String msg = CEP.length() < 9 ? "Preencha o CEP completo!" : "Preencha todos os dados do endereço!";
-	        context.addMessage(mybutton.getClientId(context), 
-	                                  new FacesMessage("", msg));
+        	if(CEP.length() < 9)
+        	PrimeFaces.current().executeScript("alert('Preencha o CEP completo!')");
+        	else 
+        		PrimeFaces.current().executeScript("alert('Preencha todos os dados do endereço!')");
+
 	                                  return "editar";
         }
     	
