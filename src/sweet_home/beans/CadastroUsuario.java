@@ -1,6 +1,7 @@
 package sweet_home.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,11 +37,10 @@ import sweet_home.servico.UsuarioServico;
 @javax.faces.bean.SessionScoped
 public class CadastroUsuario implements Serializable {
         
-    @Inject
+    @EJB
     private UsuarioServico usuarioServico; 
-    @Inject
+    @EJB
     private TelefoneServico telefoneServico; 
-    private static Long id = null;
     private static String email = null;
     private static String senha = null;
     private static String nome = null;
@@ -49,6 +49,7 @@ public class CadastroUsuario implements Serializable {
     private List<Telefone> telefones = null;
     private List<Imovel> imoveis = null;
     private Usuario usuario = null;
+    private Usuario usuarioEditado = null;
     private UIComponent mybutton;
     private UIComponent campoInvalido;
    
@@ -118,9 +119,14 @@ public class CadastroUsuario implements Serializable {
     		return "invalido";
         }
     	
-    	Usuario usuario = new Usuario(id, email, senha, nome, sobrenome, habilitado.equals("1"));
-    	usuario.setTelefones(telefones);
-    	usuarioServico.atualizar(usuario);
+    	usuarioEditado.setEmail(email);
+    	usuarioEditado.setPrimeiroNome(nome);
+    	usuarioEditado.setUltimoNome(sobrenome);
+    	usuarioEditado.setSenha(senha);
+    	usuarioEditado.setHabilitado(habilitado.equals("1"));
+    	usuarioEditado.setTelefones(telefones);    	
+    	
+    	usuarioServico.atualizar(usuarioEditado);
         
     	resetarVariaveis();
     	
@@ -129,19 +135,19 @@ public class CadastroUsuario implements Serializable {
     
     public void dadosUsuario(Usuario u) {
     	
-    	this.id = u.getId();
+    	this.usuarioEditado = u;
     	this.email = u.getEmail();
     	this.nome= u.getPrimeiroNome();
     	this.sobrenome = u.getUltimoNome();
     	this.senha = u.getSenha();
-    	this.habilitado = u.isHabilitado() ? "1" : "0";
-    	this.telefones = telefoneServico.recuperarPorIdUsuario(u.getId());
+    	this.habilitado = u.isHabilitado() ? "1" : "0";    	
+    	this.telefones = telefoneServico.recuperarPorIdUsuario(u.getId());    	
     	this.imoveis = u.getImoveis();
     }
     
     public void resetarVariaveis() {
     	
-    	this.id = null;
+    	this.usuarioEditado = null;
     	this.email = null;
     	this.nome= null;
     	this.sobrenome = null;
@@ -163,22 +169,14 @@ public class CadastroUsuario implements Serializable {
         usuarioServico.remover(u);      
     }
     
-    public void excluirTelefone(Telefone fone) {              
+    public void excluirTelefone(String s) {                  	
     	
-        telefones.remove(fone);      
+    	Telefone fone= telefoneServico.consultarPorId(new Long(s));
+    	telefoneServico.remover(fone);
+    	this.telefones = telefoneServico.recuperarPorIdUsuario(usuarioEditado.getId());    	
     }
     
-    public void atualizaFones() {
-    	
-    	telefones.forEach(x -> {
-    		
-    		if(x.getDdd().length() < 2 || x.getNumero().length() < 8) {
-    			PrimeFaces.current().executeScript("Algum telefone está fora do padrão!");
-    		}
-    		else PrimeFaces.current().executeScript("PF('telefones').hide();");
-    	});
-    }
-    
+        
     
     public Usuario getUsuario() {
     	return usuario;
@@ -186,6 +184,14 @@ public class CadastroUsuario implements Serializable {
     
     public void setUsuario(Usuario usuario) {
     	this.usuario = usuario;
+    }
+    
+    public Usuario getUsuarioEditado() {
+    	return usuarioEditado;
+    }
+    
+    public void setUsuarioEditado(Usuario usuarioEditado) {
+    	this.usuarioEditado = usuarioEditado;
     }
     
     public List<Telefone> getTelefones() {
@@ -196,15 +202,7 @@ public class CadastroUsuario implements Serializable {
     public void setTelefones(List<Telefone> telefones) {
     	this.telefones = telefones;
     }
-    
-    public Long getId() {
-    	return id;
-    }
-    
-    public void setId(Long id) {
-    	this.id = id;
-    }
-    
+          
     public String getEmail() {
         return email;
     }    

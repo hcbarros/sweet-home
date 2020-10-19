@@ -43,7 +43,7 @@ import javax.validation.constraints.NotNull;
             @NamedQuery(
                     name = "Telefone.RecuperarPorIdUsuario",
                     query = "SELECT t FROM Telefone t WHERE t.usuario IN (SELECT u FROM Usuario u WHERE u.id = ?1)"
-            ),
+            )
         }
 )
 @Access(AccessType.FIELD)

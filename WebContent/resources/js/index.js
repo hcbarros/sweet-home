@@ -23,11 +23,11 @@ function mascaraValor(id) {
     document.getElementById(id).value = campo.value;
 }
 
-function mascaraNumero(id) {
+function mascaraNumero(id, num) {
     
     var campo = document.getElementById(id);        
     campo.value = campo.value.replace( /[^\d]/g, '' );	                                         
-    if ( campo.value.length > 7 ) campo.value = stop;
+    if ( campo.value.length > parseInt(num) ) campo.value = stop;
     else stop = campo.value;    
 }
 

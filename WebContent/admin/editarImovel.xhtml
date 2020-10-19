@@ -77,7 +77,7 @@
 			                                
 			                            <h:form prependId="false">
 			                                
-					                        <p:carousel id="carrosel" value="#{cadastroImovel.imagens}" var="img" style="width:100%; min-height:200px; ;" 
+					                        <p:carousel id="carrosel" value="#{cadastroImovel.imagens}" var="img" style="width:100%; min-height:200px;" 
 					                           			itemStyle="width:100%;" numVisible="1" easing="easeOutBounce" circular="true" >
 													    			 
 													  <p:commandButton id="excluir" style="width: 100%;" value="Excluir" actionListener="#{cadastroImovel.excluirImagem(img)}" update="carrosel" type="button" >
@@ -169,7 +169,7 @@
 		                                         
 																
 								<p:outputLabel for="numero" style="font-weight: bold" value="Número: " /> 
-		                        <p:inputText id="numero" onfocus="this.value='';" onkeydown="mascaraNumero(this.id)" onkeyup="mascaraNumero(this.id)" value="#{cadastroImovel.numero}" />
+		                        <p:inputText id="numero" onfocus="this.value='';" onkeydown="mascaraNumero(this.id, 7)" onkeyup="mascaraNumero(this.id, 7)" value="#{cadastroImovel.numero}" />
 		                                                                                     
 		                            
 		                    </h:panelGrid>        

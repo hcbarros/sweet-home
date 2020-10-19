@@ -85,50 +85,35 @@
 		                            </p:selectOneMenu>
 		                        		                                                
 		                       
-		                        <p:outputLabel style="font-weight: bold" value="Telefones:" />
-			                    <h:panelGrid columns="1" >
-			                    
-			                       	<p:commandButton value="Telefones" onclick="PF('telefones').show();" type="button" />                               		
-			                               		<p:dialog width="400" modal="true" appendTo="@(body)" header="Telefones" closable="false"
-			                             				 widgetVar="telefones" hideEffect="clip" showEffect="clip">                               
-			                               		  
-			                               		   <h:form id="formfone" style="height: 400px;" prependId="false">
-			                               		                              			                               	
-					                                	<p:carousel id="carrosel" rendered="#{cadastroUsuario.telefones != null}" value="#{cadastroUsuario.telefones}"  
-					                                	var="fone" itemStyle="height:100%;text-align:center" numVisible="1" easing="easeOutBounce" 
-					                                	style="width:100%; height:100%;" circular="true">
-													    
-														    <p:commandButton id="excluir" style="width: 100%;" value="Excluir" actionListener="#{cadastroUsuario.excluirTelefone(fone)}" type="button" >
-																		<f:ajax event="click" execute="formfone excluir" render="formfone carrosel" />			  		
-															</p:commandButton>
-	
-													        <h:panelGrid columns="2" style="width:100%; height: 100px" columnClasses="label,value">
-													            								 
-													            <p:outputLabel style="font-weight: bold" value="DDD:" />
-													            <p:inputNumber style="width:50px;" value="#{fone.ddd}" maxlength="2" />
-													 
-													            <p:outputLabel style="font-weight: bold" value="Número:" />
-													            <p:inputNumber style="width:50px;" value="#{fone.numero}" maxlength="9" />								 
-													           
-													        </h:panelGrid>
-													    </p:carousel>     
-													    
-													    <p:commandButton id="fechar" value="Fechar" onclick='PF(#{cadastroUsuario.email}).hide();'>
-													    		<f:ajax event="click" execute="fones fechar" render="carrosel" />
-													    </p:commandButton>
-													    
-												   </h:form>	    
-													    
-												</p:dialog>
-		                       
-		                       </h:panelGrid>
-		                                      
-								                                
+		                        <p:outputLabel style="font-weight: bold;" value="Telefones:" />
+		                    	
+			                        <p:accordionPanel id="accordion" tabindex="true" activeIndex="1" style="width: 200px; overflow-x: hidden;" >
+								        <p:tab title="Telefones">
+								           <p:dataTable id="tabela" style="width:250px; margin-top:-17px; margin-left:-40px ; overflow-x: hidden;" rendered="#{cadastroUsuario.telefones != null}" var="telefone" value="#{cadastroUsuario.telefones}" >
+								           		<p:column style="text-align: center; width: 20px;" headerText="DDD">
+				                                    <h:outputText value="#{telefone.ddd}" />
+				                                </p:column>   
+				                                <p:column style="text-align: center; width: 40px; " headerText="Número">
+				                                    <h:outputText value="#{telefone.numero}" />
+				                                </p:column>  
+				                                <p:column style="text-align: center; width: 15px;" >
+				                                	<p:commandLink id="excluir" actionListener="#{cadastroUsuario.excluirTelefone(telefone.id)}" update="form:accordion" >
+				                                	
+				                                    	<p:graphicImage style="width:20px; height:20px" library="imagens" name="delete.png"/>		                                    
+				                                    	<f:ajax event="click" execute="excluir" render="tabela" />
+				                                    	
+				                                    </p:commandLink>
+				                                </p:column>      
+								           
+								           </p:dataTable>						           
+								        </p:tab>
+								    </p:accordionPanel>
+		                        		                                                      
 		                            
 		                    </h:panelGrid>        
 		                    
 		                     <br/><br/>
-		                     <p:commandButton ajax="false" value="Enviar" action="#{cadastroImovel.cadastrar()}" />
+		                     <p:commandButton ajax="false" value="Enviar" action="#{cadastroUsuario.editar()}" />
 						     
 						     <ui:fragment rendered="#{cadastroImovel.editar == true}">
 									<p:commandButton style="margin-left: 10px;" value="Restaurar" update="form" process="@this" /> 
