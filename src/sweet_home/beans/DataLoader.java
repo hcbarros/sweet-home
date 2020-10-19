@@ -85,16 +85,16 @@ public class DataLoader implements Serializable {
 		
 		usuarios = usuarioServico.recuperarUsuarios();
 		
-		foneServico.persistir(new Telefone(null, usuarios.get(0), "995201778", "081"));		
-		foneServico.persistir(new Telefone(null, usuarios.get(0), "923758461", "081"));
-		foneServico.persistir(new Telefone(null, usuarios.get(0), "987452100", "081"));
-		foneServico.persistir(new Telefone(null, usuarios.get(0), "985203164", "081"));		
-		foneServico.persistir(new Telefone(null, usuarios.get(2), "987264169", "081"));
-		foneServico.persistir(new Telefone(null, usuarios.get(2), "976521543", "081"));
-		foneServico.persistir(new Telefone(null, usuarios.get(3), "984673125", "081"));		
-		foneServico.persistir(new Telefone(null, usuarios.get(5), "989865214", "081"));			
-		foneServico.persistir(new Telefone(null, usuarios.get(8), "986452712", "081"));			
-		foneServico.persistir(new Telefone(null, usuarios.get(9), "998764523", "081"));			
+		foneServico.persistir(new Telefone(null, usuarios.get(0), "995201778", "81"));		
+		foneServico.persistir(new Telefone(null, usuarios.get(0), "923758461", "81"));
+		foneServico.persistir(new Telefone(null, usuarios.get(0), "987452100", "81"));
+		foneServico.persistir(new Telefone(null, usuarios.get(0), "985203164", "81"));		
+		foneServico.persistir(new Telefone(null, usuarios.get(2), "987264169", "81"));
+		foneServico.persistir(new Telefone(null, usuarios.get(2), "976521543", "81"));
+		foneServico.persistir(new Telefone(null, usuarios.get(3), "984673125", "81"));		
+		foneServico.persistir(new Telefone(null, usuarios.get(5), "989865214", "81"));			
+		foneServico.persistir(new Telefone(null, usuarios.get(8), "986452712", "81"));			
+		foneServico.persistir(new Telefone(null, usuarios.get(9), "998764523", "81"));			
 	
 		carregarImoveis();		
 	}

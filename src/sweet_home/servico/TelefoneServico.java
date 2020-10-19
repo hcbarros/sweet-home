@@ -76,6 +76,10 @@ public class TelefoneServico extends Servico<Telefone> {
         return super.consultarEntidades(new Object[] {u}, "Telefone.RecuperarPorUsuario");         
     }
     
+    @TransactionAttribute(SUPPORTS) 
+    public List<Telefone> recuperarPorIdUsuario(@NotNull Long id) {
+        return super.consultarEntidades(new Object[] {id}, "Telefone.RecuperarPorIdUsuario");         
+    }
     
 }
 

@@ -86,8 +86,6 @@ public class CadastroImovel implements Serializable {
     private Imovel imovel;   
     private List<byte[]> imagens = null;
         
-    private UploadedFile imageFile; 
-        
     
     
     public String cadastrar() {
@@ -126,26 +124,12 @@ public class CadastroImovel implements Serializable {
         imovel.setBeiraMar(beiraMar.equals("1"));
         imovel.setGaragem(garagem.equals("1"));
         imovel.setSalaReuniao(salaReuniao.equals("1"));
-        if(imagens != null) imovel.setImagens(imagens);
+        imovel.setImagens(imagens);
         imovel.setEndereco(endereco);
         
         if(imovel.getId() == null) imovelServico.persistir(imovel);    
         else imovelServico.atualizar(imovel);
-        
-        imovel = null;
-        banheiros = null;    
-        quartos = null;
-        salas = null;
-        descricao = null;
-        valor = null;
-        cidade = null;
-        bairro = null;
-        rua = null;
-        numero = null;    
-        CEP = null;
-        estado = null;
-        imagens = null;
-        
+                
         resp = "Imóvel cadastrado com sucesso!";        
         
         return "sucesso";
@@ -304,6 +288,29 @@ public class CadastroImovel implements Serializable {
     public void cadastro() {
     	this.operacao = "Cadastrar imóvel";
     	this.editar = false;
+    
+    	imagens = new ArrayList<>();
+    	imovel = null;
+        banheiros = null;    
+        quartos = null;
+        salas = null;
+        descricao = null;
+        piscina = null;
+        garagem = null;
+        salaReuniao = null;
+        beiraMar = null;
+        valor = null;
+        cidade = null;
+        bairro = null;
+        rua = null;
+        numero = null;    
+        CEP = null;
+        estado = null;        
+    }
+    
+    public void excluirImagem(byte[] img) {
+    	
+    	imagens.remove(img);
     }
     
     
