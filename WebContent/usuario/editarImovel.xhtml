@@ -33,12 +33,12 @@
 	                    <p:menu>
 	                        <p:submenu label="Opções">                            	
 	                            	
-	                 			<p:menuitem ajax="false" action="/admin/meusImoveis.xhtml" value="Seus imóveis"/>	                 			
-	                 			<p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/admin/todosImoveis.xhtml" value="Todos os imóveis"/>	                                             
-	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(1)}" action="/admin/todosImoveis.xhtml" value="Filtrar imóvel"/>                              
-	                            <p:menuitem ajax="false" actionListener="#{cadastroImovel.cadastro()}" action="/admin/editarImovel" value="Cadastrar imóvel"/>	
-	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/admin/usuarios.xhtml" value="Usuários"/>                            	                            
-	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/admin/index.xhtml" value="Tela inicial"/>                          
+	                 			<p:menuitem ajax="false" action="/usuario/meusImoveis.xhtml" value="Seus imóveis"/>	                 			
+	                 			<p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/usuario/todosImoveis.xhtml" value="Todos os imóveis"/>	                                             
+	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(1)}" action="/usuario/todosImoveis.xhtml" value="Filtrar imóvel"/>                              
+	                            <p:menuitem ajax="false" actionListener="#{cadastroImovel.cadastro()}" action="/usuario/editarImovel" value="Cadastrar imóvel"/>	
+	                            <p:menuitem ajax="false" actionListener="#{cadastroUsuario.dadosPessoais()}" action="/usuario/editarUsuario.xhtml" value="Editar dados pessoais"/>                            	                            
+	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/usuario/index.xhtml" value="Tela inicial"/>                          
 	                            	           
 	                        </p:submenu>
 	

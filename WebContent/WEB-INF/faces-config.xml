@@ -53,6 +53,31 @@
             <from-outcome>invalido</from-outcome>
             <to-view-id>/admin/editarUsuario.xhtml</to-view-id>
         </navigation-case>        
+    </navigation-rule>         
+    
+    
+    <navigation-rule>
+        <from-view-id>/usuario/editarImovel.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>editar</from-outcome>
+            <to-view-id>/usuario/editarImovel.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>sucesso</from-outcome>
+            <to-view-id>/usuario/todosImoveis.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>          
+    
+    <navigation-rule>
+        <from-view-id>/usuario/editarUsuario.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/usuario/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>invalido</from-outcome>
+            <to-view-id>/usuario/editarUsuario.xhtml</to-view-id>
+        </navigation-case>        
     </navigation-rule>              
         
 </faces-config>

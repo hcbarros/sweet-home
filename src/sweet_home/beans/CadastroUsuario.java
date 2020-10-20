@@ -2,6 +2,7 @@ package sweet_home.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,12 +56,13 @@ public class CadastroUsuario implements Serializable {
     private Usuario usuarioEditado = null;
     private UIComponent mybutton;
     private UIComponent campoInvalido;
+    private HttpSession sessao;
    
         
     @PostConstruct
     public void init() {    	            
     	
-       	HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+       	sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
     	usuario = (Usuario) sessao.getAttribute("logado");
     }
     
@@ -104,7 +106,7 @@ public class CadastroUsuario implements Serializable {
         	usuario.setSenha(senha);
         	usuario.setPrimeiroNome(nome);
         	usuario.setUltimoNome(sobrenome);
-        	usuario.setHabilitado(true);
+        	usuario.setHabilitado(true);        	
         	usuarioServico.persistir(usuario);
         	
         	resetarVariaveis();
@@ -147,12 +149,13 @@ public class CadastroUsuario implements Serializable {
     
     public void dadosUsuario(Usuario u) {
     	
+    	resetarVariaveis();
     	this.usuarioEditado = u;
     	this.email = u.getEmail();
     	this.nome= u.getPrimeiroNome();
     	this.sobrenome = u.getUltimoNome();
     	this.senha = u.getSenha();
-    	this.habilitado = u.isHabilitado() ? "1" : "0";    	
+    	this.habilitado = u.isHabilitado() ? "1" : "0";    	    	
     	List<Telefone> list = telefoneServico.recuperarPorIdUsuario(u.getId());
     	this.telefones = new ArrayList<>();
     	this.fonesRemovidos = new ArrayList<>();
@@ -161,8 +164,14 @@ public class CadastroUsuario implements Serializable {
     		list.forEach(x -> {
     			this.telefones.add(x);
     		});
-    	}
-    	this.imoveis = u.getImoveis();
+    	}    	
+    }
+    
+    public void dadosPessoais() {
+    	
+    	sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    	usuario = (Usuario) sessao.getAttribute("logado");
+    	dadosUsuario(usuario);
     }
     
     public void resetarVariaveis() {
@@ -194,28 +203,33 @@ public class CadastroUsuario implements Serializable {
     
     public void excluirTelefone(String s) {                  	
     	    	
-    	Long l = new Long(s);
-    	int size = this.telefones.size();
-    	for(int i = 0; i < size; i++) {    		
+    	Long l = new Long(s);    	
+    	Collection<Telefone> col = new ArrayList<>(this.telefones);
+    	for(int i = 0; i < col.size(); i++) {    		
     		if(this.telefones.get(i).getId().equals(l)) {    			     			
-    			Telefone t = this.telefones.remove(i);
-    			fonesRemovidos.add(t);
+    			Telefone t = null;
+    			if(i < this.telefones.size()) t = this.telefones.remove(i);
+    			if(t != null) {
+    				if(!fonesRemovidos.contains(t))
+    				fonesRemovidos.add(t);
+    			}
     		}
     	}
     }
        
     public void inserirFone() {
     	
-    	fone = fone.replace("(", "").replace(")", "").replace("-", "");
-    	if(fone.length() < 10) PrimeFaces.current().executeScript("alert('O formato do telefone é inválido!')");
-    	else {
+    	String tel = fone.replace("(", "").replace(")", "").replace("-", "");
+    	if(tel.length() < 10) PrimeFaces.current().executeScript("alert('O formato do telefone é inválido!')");
+    	else {    		
     		
+    		fonesInseridos.add(new Telefone(null, usuarioEditado, tel.substring(2), tel.substring(0,2)));
     		PrimeFaces.current().executeScript("alert('O telefone foi adicionado!')");
-    		fonesInseridos.add(new Telefone(null, usuarioEditado, fone.substring(2), fone.substring(0,3)));
+    		fone = "";
     	}
     }
     
-    
+        
         
     public String getFone() {
     	return fone;

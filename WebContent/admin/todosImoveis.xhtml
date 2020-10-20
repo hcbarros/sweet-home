@@ -33,9 +33,13 @@
                     <h:form>
 	                    <p:menu>
 	                        <p:submenu label="Opções">
-	                            
-	                 			<p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/admin/index.xhtml" value="Voltar"/>                            
-	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(1)}" value="Filtrar"/>                           	           
+	                            	                 			                        
+	                            <p:menuitem ajax="false" rendered="#{filtro.filtrar == 0}" actionListener="#{filtro.setFiltrar(1)}" value="Filtrar imóveis"/>                           	           
+	                            <p:menuitem ajax="false" rendered="#{filtro.filtrar == 1}" actionListener="#{filtro.setFiltrar(0)}" value="Todos os imóveis"/>
+	                            <p:menuitem ajax="false" action="/admin/meusImoveis.xhtml" value="Seus imóveis"/>
+	                            <p:menuitem ajax="false" rendered="#{filtro.filtrar == 0}" action="/admin/editarImovel" value="Cadastrar imóvel"/>	
+	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/admin/usuarios.xhtml" value="Usuários"/>                            	                            
+	                            <p:menuitem ajax="false" actionListener="#{filtro.setFiltrar(0)}" action="/admin/index.xhtml" value="Tela inicial"/>    
 	                            	           
 	                        </p:submenu>
 	

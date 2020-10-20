@@ -255,8 +255,7 @@ public class CadastroImovel implements Serializable {
     	HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Usuario usuarioLogado = (Usuario) sessao.getAttribute("logado");
     	
-    	return getLista().stream().filter(x -> x.getUsuario().getEmail().equals(usuarioLogado.getEmail()))
-    			.collect(Collectors.toList());
+    	return imovelServico.recuperarPorUsuario(usuarioLogado);
     }
         
     

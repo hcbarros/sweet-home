@@ -7,16 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Default;
 import javax.faces.annotation.FacesConfig;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpSession;
+
+import org.primefaces.PrimeFaces;
 
 import sweet_home.Administrador;
 import sweet_home.Endereco;
@@ -33,7 +38,7 @@ import sweet_home.servico.UsuarioServico;
 
 
 @javax.faces.bean.ManagedBean(name = "dataLoader")
-@javax.faces.bean.RequestScoped
+@javax.faces.bean.SessionScoped
 public class DataLoader implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -48,9 +53,25 @@ public class DataLoader implements Serializable {
 	@EJB
 	private ImovelServico imovelServico;
 	
+	private String path;
+	
 	@PersistenceContext(name = "sweet_home", type = TRANSACTION)
     protected EntityManager entityManager;
 	
+	
+	@PostConstruct
+    public void init() {    	            
+    	
+       	path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");           	
+    }
+	
+	public String getPath() {
+		return path;
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
 	
 	public void carregarDados() {		
 
@@ -60,7 +81,7 @@ public class DataLoader implements Serializable {
 	
 	private void carregarUsuarios() {		
 		
-		
+		PrimeFaces.current().executeScript("alert('"+path+"')");
 		admServico.persistir(constroeAdm("rosaalexandrino@gmail.com", "hBuxA23", "Rosa", "Alexandrino", true, "96712385", 1));
 		admServico.persistir(constroeAdm("igormoraes@gmail.com", "LbyI20", "Igor", "Moraes", true, "96785321", 3));
 		usuarioServico.persistir(new Usuario(null, "joanamendonca@gmail.com", "aopHMXX9", "Joana", "Mendonça", true));	
