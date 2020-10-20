@@ -46,7 +46,10 @@ public class CadastroUsuario implements Serializable {
     private static String nome = null;
     private static String sobrenome = null;      
     private static String habilitado = "1";
+    private List<Telefone> fonesRemovidos = null;
+    private List<Telefone> fonesInseridos = null;
     private List<Telefone> telefones = null;
+    private String fone = null;
     private List<Imovel> imoveis = null;
     private Usuario usuario = null;
     private Usuario usuarioEditado = null;
@@ -115,7 +118,7 @@ public class CadastroUsuario implements Serializable {
     	
     	if(!validarEmail(email)) {
             
-    		PrimeFaces.current().executeScript("Email inválido!");
+    		PrimeFaces.current().executeScript("alert('Email inválido!')");
     		return "invalido";
         }
     	
@@ -124,10 +127,19 @@ public class CadastroUsuario implements Serializable {
     	usuarioEditado.setUltimoNome(sobrenome);
     	usuarioEditado.setSenha(senha);
     	usuarioEditado.setHabilitado(habilitado.equals("1"));
-    	usuarioEditado.setTelefones(telefones);    	
+    	
+    	fonesRemovidos.forEach(x -> {
+    		telefoneServico.remover(x);
+    	});
+    	
+    	fonesInseridos.forEach(x -> {
+    		telefoneServico.persistir(x);
+    	});
+    	
+    	usuarioEditado.setTelefones(telefones);
     	
     	usuarioServico.atualizar(usuarioEditado);
-        
+            	   	
     	resetarVariaveis();
     	
         return "encontrado";    
@@ -141,7 +153,15 @@ public class CadastroUsuario implements Serializable {
     	this.sobrenome = u.getUltimoNome();
     	this.senha = u.getSenha();
     	this.habilitado = u.isHabilitado() ? "1" : "0";    	
-    	this.telefones = telefoneServico.recuperarPorIdUsuario(u.getId());    	
+    	List<Telefone> list = telefoneServico.recuperarPorIdUsuario(u.getId());
+    	this.telefones = new ArrayList<>();
+    	this.fonesRemovidos = new ArrayList<>();
+    	this.fonesInseridos = new ArrayList<>();
+    	if(list != null) {
+    		list.forEach(x -> {
+    			this.telefones.add(x);
+    		});
+    	}
     	this.imoveis = u.getImoveis();
     }
     
@@ -154,6 +174,9 @@ public class CadastroUsuario implements Serializable {
     	this.senha = null;
     	this.habilitado = null;
     	this.telefones = null;
+    	this.fonesInseridos = null;
+    	this.fonesRemovidos = null;
+    	this.fone = null;
     	this.imoveis = null;
     }
           
@@ -170,13 +193,53 @@ public class CadastroUsuario implements Serializable {
     }
     
     public void excluirTelefone(String s) {                  	
+    	    	
+    	Long l = new Long(s);
+    	int size = this.telefones.size();
+    	for(int i = 0; i < size; i++) {    		
+    		if(this.telefones.get(i).getId().equals(l)) {    			     			
+    			Telefone t = this.telefones.remove(i);
+    			fonesRemovidos.add(t);
+    		}
+    	}
+    }
+       
+    public void inserirFone() {
     	
-    	Telefone fone= telefoneServico.consultarPorId(new Long(s));
-    	telefoneServico.remover(fone);
-    	this.telefones = telefoneServico.recuperarPorIdUsuario(usuarioEditado.getId());    	
+    	fone = fone.replace("(", "").replace(")", "").replace("-", "");
+    	if(fone.length() < 10) PrimeFaces.current().executeScript("alert('O formato do telefone é inválido!')");
+    	else {
+    		
+    		PrimeFaces.current().executeScript("alert('O telefone foi adicionado!')");
+    		fonesInseridos.add(new Telefone(null, usuarioEditado, fone.substring(2), fone.substring(0,3)));
+    	}
     }
     
+    
         
+    public String getFone() {
+    	return fone;
+    }
+    
+    public void setFone(String fone) {
+    	this.fone = fone;
+    }
+    
+    public List<Telefone> getFonesRemovidos() {
+    	return fonesRemovidos;
+    }
+    
+    public void setFonesRemovidos(List<Telefone> fonesRemovidos) {
+    	this.fonesRemovidos = fonesRemovidos;
+    }
+    
+    public List<Telefone> getFonesInseridos() {
+    	return fonesInseridos;
+    }
+    
+    public void setFonesInseridos(List<Telefone> fonesInseridos) {
+    	this.fonesInseridos = fonesInseridos;
+    }
     
     public Usuario getUsuario() {
     	return usuario;

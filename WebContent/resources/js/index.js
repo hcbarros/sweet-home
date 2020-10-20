@@ -31,6 +31,16 @@ function mascaraNumero(id, num) {
     else stop = campo.value;    
 }
 
+function mascaraFone(id) {
+    
+	var fone = document.getElementById(id);        	
+    fone.value = fone.value.replace( /[^\d]/g, '' ).replace( /^0/,'' )
+                            .replace( /^(\d\d)(\d)/, '($1)$2' )
+                            .replace(fone.value.length > 13 ? /(\d{5})(\d)/ : /(\d{4})(\d)/, '$1-$2' );
+    if ( fone.value.length > 14 ) fone.value = stop;
+    else stop = fone.value;    
+}
+
 function mascaraCEP(id) {
 
     var campo = document.getElementById(id);        

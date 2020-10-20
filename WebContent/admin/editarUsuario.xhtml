@@ -85,22 +85,22 @@
 		                            </p:selectOneMenu>
 		                        		                                                
 		                       
-		                        <p:outputLabel style="font-weight: bold;" value="Telefones:" />
+		                        <p:outputLabel rendered="#{cadastroUsuario.telefones != null}" style="font-weight: bold;" value="Seus telefones:" />
 		                    	
-			                        <p:accordionPanel id="accordion" tabindex="true" activeIndex="1" style="width: 200px; overflow-x: hidden;" >
+			                        <p:accordionPanel rendered="#{cadastroUsuario.telefones != null}" id="accordion" tabindex="true" activeIndex="1" style="width: 200px; overflow-x: hidden;" >
 								        <p:tab title="Telefones">
-								           <p:dataTable id="tabela" style="width:250px; margin-top:-17px; margin-left:-40px ; overflow-x: hidden;" rendered="#{cadastroUsuario.telefones != null}" var="telefone" value="#{cadastroUsuario.telefones}" >
+								           <p:dataTable id="tabela" style="width:200px; margin-top:-17px; margin-left:-40px ; overflow-x: hidden;" rendered="#{cadastroUsuario.telefones != null}" var="telefone" value="#{cadastroUsuario.telefones}" >
 								           		<p:column style="text-align: center; width: 20px;" headerText="DDD">
 				                                    <h:outputText value="#{telefone.ddd}" />
 				                                </p:column>   
-				                                <p:column style="text-align: center; width: 40px; " headerText="Número">
+				                                <p:column style="text-align: center; width: 70px; " headerText="Número">
 				                                    <h:outputText value="#{telefone.numero}" />
 				                                </p:column>  
-				                                <p:column style="text-align: center; width: 15px;" >
-				                                	<p:commandLink id="excluir" actionListener="#{cadastroUsuario.excluirTelefone(telefone.id)}" update="form:accordion" >
+				                                <p:column style="text-align: center; width: 10px;" >
+				                                	<p:commandLink id="excluir" actionListener="#{cadastroUsuario.excluirTelefone(telefone.id)}" update="@this" >
 				                                	
 				                                    	<p:graphicImage style="width:20px; height:20px" library="imagens" name="delete.png"/>		                                    
-				                                    	<f:ajax event="click" execute="excluir" render="tabela" />
+				                                    	<f:ajax event="click" execute="excluir" render="accordion tabela" />
 				                                    	
 				                                    </p:commandLink>
 				                                </p:column>      
@@ -108,8 +108,23 @@
 								           </p:dataTable>						           
 								        </p:tab>
 								    </p:accordionPanel>
-		                        		                                                      
-		                            
+		                        		                      
+		                         		                                                      
+		                         <p:outputLabel style="font-weight: bold;" value="Adicionar telefone:" />
+			                         <h:panelGrid columns="2" >   
+			                         	
+			                         	<p:inputText id="fone" onkeyup="mascaraFone(this.id)" onkeydown="mascaraFone(this.id)" value="#{cadastroUsuario.fone}" /> 
+										<p:commandButton id="inserir" actionListener="#{cadastroUsuario.inserirFone()}" update="@this" value="Adicionar" >
+					                            					                           			                                    
+					                           	<f:ajax event="click" execute="fone inserir" render="fone" />
+					                                    	
+					                    </p:commandButton>
+		
+			                         </h:panelGrid>
+		                         
+		                         
+		                         
+		                         
 		                    </h:panelGrid>        
 		                    
 		                     <br/><br/>
