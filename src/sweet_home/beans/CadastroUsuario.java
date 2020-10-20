@@ -191,7 +191,7 @@ public class CadastroUsuario implements Serializable {
           
    
     public List<Usuario> usuarios() {
-    	
+    	    	    	
     	return usuarioServico.usuariosOrdenadosPorEmail();
     }
     

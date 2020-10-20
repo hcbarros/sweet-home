@@ -53,25 +53,9 @@ public class DataLoader implements Serializable {
 	@EJB
 	private ImovelServico imovelServico;
 	
-	private String path;
-	
 	@PersistenceContext(name = "sweet_home", type = TRANSACTION)
     protected EntityManager entityManager;
 	
-	
-	@PostConstruct
-    public void init() {    	            
-    	
-       	path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");           	
-    }
-	
-	public String getPath() {
-		return path;
-	}
-	
-	public void setPath(String path) {
-		this.path = path;
-	}
 	
 	public void carregarDados() {		
 
@@ -80,8 +64,7 @@ public class DataLoader implements Serializable {
 	}
 	
 	private void carregarUsuarios() {		
-		
-		PrimeFaces.current().executeScript("alert('"+path+"')");
+				
 		admServico.persistir(constroeAdm("rosaalexandrino@gmail.com", "hBuxA23", "Rosa", "Alexandrino", true, "96712385", 1));
 		admServico.persistir(constroeAdm("igormoraes@gmail.com", "LbyI20", "Igor", "Moraes", true, "96785321", 3));
 		usuarioServico.persistir(new Usuario(null, "joanamendonca@gmail.com", "aopHMXX9", "Joana", "Mendonça", true));	
